@@ -2,6 +2,8 @@
 
 **A BTC forecasting council that remembers who was right.**
 
+Read the illustrated [technical blog post](blog/sibyl-forecasting-council.md) for a step-by-step explanation of how forecasts, memory, payments, and proofs fit together.
+
 Several voices forecast the same question, "BTC above K at time T?": the DeepBook Predict market on Sui, Kalshi, and three paid AI analysts. Sibyl commits every forecast on chain before expiry, scores each voice when the event settles, and keeps what it learns in **Walrus Memory**: who to trust in which market context, tested lessons, and its trading policy. It pays analysts per signal in USDC over **MPP on Sui**, but only when its memory says the signal is worth the price. All Sui traffic goes through **Tatum's Sui gRPC gateway**.
 
 Before it trades, Sibyl **recalls** similar past situations from Walrus Memory and asks: "when the council disagreed with the market like this before, who was right?" Wipe its local beliefs, and it rebuilds them from Walrus and makes the same next decisions. There is an "Amnesia test" button on the dashboard, or run `pnpm restore-test`.

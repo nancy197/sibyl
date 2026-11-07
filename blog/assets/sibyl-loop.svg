@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" role="img" aria-labelledby="title desc">
+  <title id="title">Sibyl forecasting and learning loop</title>
+  <desc id="desc">Market and analyst voices flow into a locked forecast, a Sui Merkle commitment, settlement and scoring, then Walrus Memory. Memory feeds future trust, recall, and purchase decisions.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#081629"/><stop offset="1" stop-color="#111437"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M1 1l8 4-8 4" fill="none" stroke="#88a8d5" stroke-width="1.7"/></marker>
+    <style>.label{fill:#eef4ff;font:700 23px system-ui,sans-serif}.body{fill:#afc4dc;font:17px system-ui,sans-serif}.eyebrow{fill:#69d9ed;font:700 15px system-ui,sans-serif;letter-spacing:2px}.line{fill:none;stroke:#88a8d5;stroke-width:3;marker-end:url(#arrow)}.box{fill:#142640;stroke:#4a6a91;stroke-width:2}</style>
+  </defs>
+  <rect width="1200" height="600" rx="28" fill="url(#bg)"/>
+  <text x="52" y="57" class="eyebrow">ONE EVENT, THEN THE NEXT</text>
+  <rect class="box" x="52" y="111" width="224" height="124" rx="18"/>
+  <text x="75" y="153" class="label">Council voices</text><text x="75" y="186" class="body">Markets + 3 analysts</text><text x="75" y="213" class="body">One comparable event</text>
+  <rect class="box" x="338" y="111" width="224" height="124" rx="18"/>
+  <text x="361" y="153" class="label">Lock forecast</text><text x="361" y="186" class="body">Probability + time</text><text x="361" y="213" class="body">Before settlement</text>
+  <rect class="box" x="624" y="111" width="224" height="124" rx="18"/>
+  <text x="647" y="153" class="label">Prove timing</text><text x="647" y="186" class="body">Merkle root on Sui</text><text x="647" y="213" class="body">via Tatum gRPC</text>
+  <rect class="box" x="910" y="111" width="238" height="124" rx="18"/>
+  <text x="933" y="153" class="label">Resolve + score</text><text x="933" y="186" class="body">Venue outcome</text><text x="933" y="213" class="body">Brier + paired tests</text>
+  <path class="line" d="M278 173H327"/><path class="line" d="M564 173H613"/><path class="line" d="M850 173H899"/>
+  <path class="line" d="M1029 238V313"/>
+  <rect x="723" y="327" width="425" height="159" rx="20" fill="#182647" stroke="#9a7eee" stroke-width="2"/>
+  <text x="751" y="372" class="label">Walrus Memory</text><text x="751" y="407" class="body">Trust • lessons • policy • episodes</text><text x="751" y="439" class="body">Recall similar disagreements</text><text x="751" y="467" class="body">Restore beliefs after local reset</text>
+  <rect x="52" y="327" width="608" height="159" rx="20" fill="#142c3c" stroke="#44c5ce" stroke-width="2"/>
+  <text x="80" y="372" class="label">Next decision</text><text x="80" y="407" class="body">Weight trusted voices • buy signals if valuable</text><text x="80" y="439" class="body">Adjust edge threshold • compare with baseline</text><text x="80" y="467" class="body">Paper trade by default</text>
+  <path class="line" d="M712 407H672"/><path class="line" d="M161 316V249"/>
+  <text x="52" y="551" class="body">Each closed question becomes a test of who was right in that context.</text>
+</svg>

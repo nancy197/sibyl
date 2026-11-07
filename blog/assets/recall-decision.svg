@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">Illustrative memory recall decision</title>
+  <desc id="desc">A market probability of 46 percent and council probability of 56 percent make a 10-point gap. Eight wins in ten similar recalled events lower an illustrative 8-point threshold to 6 points, so the gap clears the threshold.</desc>
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0b1830"/><stop offset="1" stop-color="#151735"/></linearGradient><style>.cap{fill:#78dce8;font:700 15px system-ui,sans-serif;letter-spacing:2px}.head{fill:#f0f6ff;font:700 26px system-ui,sans-serif}.num{fill:#fff;font:700 48px system-ui,sans-serif}.sub{fill:#b5c7df;font:18px system-ui,sans-serif}.note{fill:#b5c7df;font:16px system-ui,sans-serif}</style></defs>
+  <rect width="1200" height="520" rx="28" fill="url(#bg)"/>
+  <text x="49" y="61" class="cap">ILLUSTRATIVE 5-MINUTE EVENT</text>
+  <rect x="49" y="91" width="340" height="179" rx="20" fill="#17304a" stroke="#4f7fa2" stroke-width="2"/>
+  <text x="76" y="130" class="head">Current question</text><text x="76" y="186" class="num">46% → 56%</text><text x="76" y="231" class="sub">Market → independent council</text>
+  <rect x="431" y="91" width="340" height="179" rx="20" fill="#292448" stroke="#8d78d0" stroke-width="2"/>
+  <text x="458" y="130" class="head">Recalled episodes</text><text x="458" y="186" class="num">8 / 10</text><text x="458" y="231" class="sub">Council right in similar cases</text>
+  <rect x="813" y="91" width="338" height="179" rx="20" fill="#183743" stroke="#49bbc5" stroke-width="2"/>
+  <text x="840" y="130" class="head">Required edge</text><text x="840" y="186" class="num">8 → 6 pt</text><text x="840" y="231" class="sub">Policy + bounded recall change</text>
+  <rect x="49" y="304" width="1102" height="126" rx="20" fill="#152942" stroke="#617d9f" stroke-width="2"/>
+  <text x="79" y="354" class="head">10-point council gap &gt; 6-point threshold</text>
+  <text x="79" y="393" class="sub">The memory policy considers the UP side, subject to stake caps and order execution.</text>
+  <text x="49" y="477" class="note">Recall changes the threshold only with at least five comparable episodes; the final threshold has a 3-point floor.</text>
+</svg>
