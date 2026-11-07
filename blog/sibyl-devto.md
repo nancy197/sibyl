@@ -7,7 +7,7 @@ tags: sui, ai, blockchain, typescript
 
 *A technical walkthrough of contextual trust, Walrus Memory, paid analyst signals, and verifiable forecasts on Sui.*
 
-![Sibyl Live dashboard comparing the council, DeepBook market, and equal-weight baseline for a five-minute BTC event](https://raw.githubusercontent.com/nancy197/sibyl/main/blog/assets/sibyl-dashboard-live.png)
+![Sibyl Live dashboard comparing the council, DeepBook market, and equal-weight baseline for a five-minute BTC event](https://raw.githubusercontent.com/nancy197/sibyl/2d7cacb3aff16716b05a2f57f988b75496ba5f6e/blog/assets/sibyl-dashboard-live.png)
 
 *Sibyl shows its probability beside the market and the equal-weight baseline, then explains its decision and the event's timeline.*
 
@@ -17,7 +17,7 @@ Sibyl is an experimental forecasting council built to make those choices from it
 
 **In brief:** Every event has a strike, an expiry, and an outcome. Sibyl gathers comparable probabilities, learns a trust weight for each voice in each market context, recalls similar past disagreements, and trades only when its independent view clears a learned edge threshold. A separate equal-weight baseline runs on the same events so the effect of memory can be measured.
 
-![Diagram of Sibyl's forecast, proof, learning, and memory loop](https://raw.githubusercontent.com/nancy197/sibyl/main/blog/assets/sibyl-loop.png)
+![Diagram of Sibyl's forecast, proof, learning, and memory loop](https://raw.githubusercontent.com/nancy197/sibyl/2d7cacb3aff16716b05a2f57f988b75496ba5f6e/blog/assets/sibyl-loop.png)
 
 *Figure 1. The result of one event becomes evidence for the next. Walrus stores both the belief state and the episodes that can change a later trade threshold.*
 
@@ -49,7 +49,7 @@ The ensemble pools the corrected probabilities in log-odds space. It also keeps 
 
 Trust weights adapt continuously, but a single run of luck should not create a permanent rule. Sibyl therefore has a separate lesson engine. It tests whether one voice beats another on paired Brier scores, whether a voice is systematically biased, and whether its probabilities are overconfident. A candidate needs at least **30 observations** and must clear a multiple-testing-adjusted significance threshold before promotion. A promoted lesson can exclude an inferior voice from the trade signal, subtract a measured bias, or shrink an overconfident forecast toward 50%. It can later be retired when the evidence fades or reverses. The analyst models also keep their own self-calibration lessons.
 
-![Sibyl Lessons tab listing calibration lessons with sample sizes, p-values, and effects on future forecasts](https://raw.githubusercontent.com/nancy197/sibyl/main/blog/assets/sibyl-dashboard-lessons.png)
+![Sibyl Lessons tab listing calibration lessons with sample sizes, p-values, and effects on future forecasts](https://raw.githubusercontent.com/nancy197/sibyl/2d7cacb3aff16716b05a2f57f988b75496ba5f6e/blog/assets/sibyl-dashboard-lessons.png)
 
 *The Lessons view shows each finding, the evidence behind it, and how it changes future forecasts.*
 
@@ -61,7 +61,7 @@ The most direct memory-driven decision happens **before a 5- or 15-minute foreca
 
 With enough examples, Sibyl counts how often the council's side was right. That hit rate moves the required trading edge by at most **−2 to +4 probability points**. A strong recalled record can lower the threshold; a poor one raises it. The adjustment is bounded and cannot take the final threshold below the system's fee-aware minimum. The recalled episodes are shown alongside the decision, so the reason is inspectable.
 
-![Worked example showing market probability, council probability, recalled hit rate, and the adjusted edge threshold](https://raw.githubusercontent.com/nancy197/sibyl/main/blog/assets/recall-decision.png)
+![Worked example showing market probability, council probability, recalled hit rate, and the adjusted edge threshold](https://raw.githubusercontent.com/nancy197/sibyl/2d7cacb3aff16716b05a2f57f988b75496ba5f6e/blog/assets/recall-decision.png)
 
 *Figure 2. Illustrative numbers: a 10-point disagreement clears a 6-point threshold after recall. The actual threshold and history are recalculated for each event.*
 
