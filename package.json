@@ -1,0 +1,42 @@
+{
+  "name": "sibyl",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Sibyl: a BTC forecasting council that remembers who was right (Walrus Memory + Tatum Sui gRPC + DeepBook Predict + MPP)",
+  "scripts": {
+    "dev": "NODE_OPTIONS=--experimental-sqlite tsx watch src/main.ts",
+    "start": "NODE_OPTIONS=--experimental-sqlite tsx src/main.ts",
+    "setup:memwal": "NODE_OPTIONS=--experimental-sqlite tsx scripts/setup-memwal.ts",
+    "restore-test": "NODE_OPTIONS=--experimental-sqlite tsx scripts/restore-test.ts",
+    "probe": "NODE_OPTIONS=--experimental-sqlite tsx scripts/probe.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "DB_PATH=:memory: MEMWAL_KEY= NODE_OPTIONS=--experimental-sqlite node --import tsx --test test/*.test.ts",
+    "format": "prettier --write \"src/**/*.ts\" \"scripts/**/*.ts\" \"test/**/*.ts\" \"web/**/*.html\"",
+    "publish:move": "tsx scripts/publish-move.ts",
+    "memwal:selftest": "tsx scripts/memwal-selftest.ts",
+    "backfill": "NODE_OPTIONS=--experimental-sqlite tsx scripts/backfill.ts"
+  },
+  "engines": {
+    "node": ">=22.5"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.14.7",
+    "@hono/node-server": "^2.1.6",
+    "@mysten-incubation/memwal": "^0.1.13",
+    "@mysten/deepbook-v3": "^2.11.0",
+    "@mysten/sui": "^2.39.0",
+    "@protobuf-ts/grpc-transport": "^2.11.1",
+    "@protobuf-ts/runtime-rpc": "^2.11.1",
+    "@suimpp/mpp": "^0.9.0",
+    "dotenv": "^18.0.9",
+    "hono": "^4.13.16",
+    "mppx": "^0.17.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "prettier": "^3.9.10",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "tabs": {
+    "track": 3.799,
+    "lessons": 17.112,
+    "payments": 29.763,
+    "proofs": 42.562,
+    "hood": 56.362,
+    "end": 68.381
+  },
+  "round": {
+    "eventId": "deepbook:5m:1794031500000:75934.78",
+    "horizon": "5m",
+    "featured": 3.728,
+    "locked": 26.391,
+    "onSui": 38.455,
+    "closed": 253.919,
+    "settled": 255.94,
+    "end": 268.078,
+    "viewHeight": 1500
+  }
+}

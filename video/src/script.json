@@ -1,0 +1,66 @@
+[
+  {
+    "id": "hook",
+    "text": "Markets disagree. Bots disagree. AI agents disagree. So... who do you trust?"
+  },
+  {
+    "id": "intro",
+    "text": "Meet Sibyl. A forecasting agent that remembers who was right."
+  },
+  {
+    "id": "council",
+    "text": "Every few minutes, Sibyl asks one question: will Bitcoin be above this price when the market closes? It listens to DeepBook on Sui, to Kalshi, and to three AI analysts it pays per signal, in USDC, over MPP."
+  },
+  {
+    "id": "commit",
+    "text": "Before the close, every forecast is hashed into a Merkle tree and committed on Sui, through Tatum's gRPC gateway. About seventy-five seconds early, on average. Nobody gets to rewrite history."
+  },
+  {
+    "id": "score",
+    "text": "When the oracle settles, Sibyl scores every voice, in that exact market condition, and shifts its trust toward whoever was right."
+  },
+  {
+    "id": "lessons",
+    "text": "Patterns become lessons, but only after a statistical test. Kalshi beats the mean-reversion analyst in mid-volatility US hours. So there, Sibyl stops listening to it."
+  },
+  {
+    "id": "recall",
+    "text": "Everything it learns lives in Walrus Memory. Before every bet, it recalls similar moments, and asks: when I disagreed with the market like this... was I right?"
+  },
+  {
+    "id": "amnesia",
+    "text": "Wipe its brain, and it rebuilds itself from Walrus, making the exact same decisions."
+  },
+  {
+    "id": "round",
+    "text": "Here's one real round, sped up. Four minutes before the close, Sibyl hears every voice and locks its call. Seconds later, it's committed on Sui. Then it watches Bitcoin against the strike... until the oracle settles it, and the result is scored."
+  },
+  {
+    "id": "tabTrack",
+    "text": "Track record compares Sibyl with the market, and with the same voices without memory, call by call."
+  },
+  {
+    "id": "tabLessons",
+    "text": "Lessons lists everything it has learned, with the evidence, and exactly what each lesson changed."
+  },
+  {
+    "id": "tabPayments",
+    "text": "Payments shows every analyst signal it bought, what memory thought it was worth, and the receipt on Sui."
+  },
+  {
+    "id": "tabProofs",
+    "text": "Proofs opens a receipt for any call: every forecast, its Merkle proof, the Sui transaction, and the Walrus memories."
+  },
+  {
+    "id": "tabHood",
+    "text": "And under the hood, Tatum's checkpoint stream shows settlements and commitments arriving live."
+  },
+  {
+    "id": "results",
+    "text": "Across seven hundred and twenty-seven scored calls, memory cuts its error by six percent. Over the last day, by sixteen. Every number here is live."
+  },
+  {
+    "id": "outro",
+    "text": "Sibyl. The forecaster that remembers who was right. Built on Walrus, Sui, and Tatum."
+  }
+]

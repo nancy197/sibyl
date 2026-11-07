@@ -1,0 +1,14 @@
+node_modules
+.env
+.memwal-delegate-key
+data/
+*.log
+move/sibyl/build
+video/.env
+video/node_modules
+video/out
+.pnpm-store
+# raw screen recordings (too big for GitHub); the video uses round-cut.mp4 and tabs.mp4
+video/public/rec/round.mp4
+video/public/rec/*.webm
+video/public/rec/v1/

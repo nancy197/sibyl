@@ -1,0 +1,1855 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sibyl · the forecaster that remembers who was right</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <style>
+      :root {
+        --bg: #04060c;
+        --panel: rgba(10, 16, 28, 0.86);
+        --panel2: #070b14;
+        --line: #12324a;
+        --text: #d7f6ff;
+        --muted: #6f8aa3;
+        --accent: #00f0ff;
+        --market: #ff2bd6;
+        --base: #f5d90a;
+        --bad: #ff3b6b;
+        --good: #39ff88;
+        --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          15px/1.5 system-ui,
+          -apple-system,
+          sans-serif;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 28px 8px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 24px;
+        letter-spacing: 0.5px;
+      }
+      h1 small {
+        color: var(--muted);
+        font-weight: 400;
+        font-size: 15px;
+        margin-left: 10px;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .pills {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .pill {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 3px 12px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .pill.on {
+        color: var(--accent);
+        border-color: #2b5b52;
+      }
+      .pill.on::before {
+        content: '● ';
+      }
+      nav {
+        display: flex;
+        gap: 4px;
+        padding: 6px 28px 0;
+        border-bottom: 1px solid var(--line);
+        flex-wrap: wrap;
+      }
+      nav button {
+        background: none;
+        border: none;
+        color: var(--muted);
+        font: inherit;
+        padding: 10px 14px;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+      }
+      nav button.active {
+        color: var(--text);
+        border-bottom-color: var(--accent);
+      }
+      main {
+        padding: 18px 28px 48px;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+      .tab {
+        display: none;
+      }
+      .tab.active {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(12, 1fr);
+      }
+      section {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 18px;
+        min-width: 0;
+      }
+      .s12 {
+        grid-column: span 12;
+      }
+      .s8 {
+        grid-column: span 8;
+      }
+      .s6 {
+        grid-column: span 6;
+      }
+      .s4 {
+        grid-column: span 4;
+      }
+      @media (max-width: 1000px) {
+        .s8,
+        .s6,
+        .s4 {
+          grid-column: span 12;
+        }
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .small {
+        font-size: 13px;
+      }
+      .num {
+        font-family: var(--mono);
+      }
+      .up {
+        color: var(--accent);
+      }
+      .down {
+        color: var(--bad);
+      }
+      .warn {
+        color: var(--base);
+      }
+
+      /* hero */
+      .question {
+        font-size: 26px;
+        font-weight: 600;
+        margin: 0;
+      }
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .countdown {
+        font-family: var(--mono);
+        font-size: 20px;
+        color: var(--muted);
+      }
+      .bars {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin: 22px 0 16px;
+      }
+      @media (max-width: 700px) {
+        .bars {
+          grid-template-columns: 1fr;
+        }
+      }
+      .bar .label {
+        font-size: 13px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .bar .value {
+        font-size: 40px;
+        font-weight: 700;
+        font-family: var(--mono);
+        line-height: 1.2;
+      }
+      .bar .track {
+        height: 10px;
+        background: var(--panel2);
+        border-radius: 5px;
+        overflow: hidden;
+        margin-top: 6px;
+      }
+      .bar .fill {
+        height: 100%;
+        border-radius: 5px;
+      }
+      .verdict {
+        background: var(--panel2);
+        border-left: 3px solid var(--accent);
+        padding: 12px 16px;
+        border-radius: 6px;
+        font-size: 16px;
+      }
+      .chips {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+      .chip {
+        background: var(--panel2);
+        border: 1px solid var(--line);
+        color: var(--muted);
+        border-radius: 8px;
+        padding: 4px 10px;
+        font: inherit;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .chip.active {
+        color: var(--text);
+        border-color: var(--accent);
+      }
+
+      /* why cards */
+      .row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+        align-items: center;
+        padding: 5px 0;
+      }
+      .minibar {
+        height: 8px;
+        background: var(--panel2);
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 3px;
+      }
+      .minibar div {
+        height: 100%;
+        background: var(--accent);
+      }
+      .big {
+        font-size: 30px;
+        font-weight: 700;
+        font-family: var(--mono);
+      }
+      .tag {
+        display: inline-block;
+        padding: 0 7px;
+        border-radius: 4px;
+        font-size: 12px;
+        background: #1b2735;
+        color: var(--muted);
+      }
+      .tag.paid,
+      .tag.bought,
+      .tag.sample {
+        background: #183a33;
+        color: var(--accent);
+      }
+      .tag.skip,
+      .tag.excluded,
+      .tag.over-budget {
+        background: #3a2f18;
+        color: var(--base);
+      }
+      .tag.failed {
+        background: #3a1c1c;
+        color: var(--bad);
+      }
+      .memory {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--muted);
+        padding: 6px 0;
+        border-bottom: 1px solid var(--line);
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .lesson {
+        border-left: 3px solid var(--accent);
+        background: var(--panel2);
+        border-radius: 6px;
+        padding: 10px 14px;
+        margin-bottom: 10px;
+      }
+      .lesson.retired {
+        border-left-color: var(--muted);
+        opacity: 0.75;
+      }
+      .lesson p {
+        margin: 3px 0;
+      }
+      button.action {
+        background: #183a33;
+        color: var(--accent);
+        border: 1px solid #2b5b52;
+        border-radius: 8px;
+        padding: 9px 16px;
+        font: inherit;
+        cursor: pointer;
+      }
+      button.action:disabled {
+        opacity: 0.5;
+        cursor: wait;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+      }
+      .stat {
+        background: var(--panel2);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 10px 12px;
+      }
+      .stat > b {
+        display: block;
+        font-size: 22px;
+        font-family: var(--mono);
+      }
+      .stat span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      th {
+        text-align: left;
+        color: var(--muted);
+        font-weight: 500;
+        padding: 6px 8px;
+        border-bottom: 1px solid var(--line);
+        white-space: nowrap;
+      }
+      td {
+        padding: 7px 8px;
+        border-bottom: 1px solid #172230;
+        vertical-align: top;
+      }
+      tr.click {
+        cursor: pointer;
+      }
+      tr.click:hover {
+        background: #16212e;
+      }
+      .scroll {
+        max-height: 420px;
+        overflow: auto;
+      }
+      .heat {
+        display: grid;
+        gap: 3px;
+        font-size: 12px;
+      }
+      .heat div {
+        padding: 6px 4px;
+        text-align: center;
+        border-radius: 4px;
+        font-family: var(--mono);
+      }
+      .heat .label {
+        text-align: left;
+        color: var(--muted);
+        font-family: inherit;
+      }
+      input[type='range'] {
+        width: 100%;
+        accent-color: var(--accent);
+      }
+      canvas {
+        max-height: 320px;
+      }
+      code {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--muted);
+        word-break: break-all;
+      }
+      /* ---------- cyber layer ---------- */
+      body {
+        background:
+          radial-gradient(1200px 600px at 70% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
+          radial-gradient(900px 500px at -10% 10%, rgba(255, 43, 214, 0.07), transparent 60%),
+          linear-gradient(rgba(0, 240, 255, 0.035) 1px, transparent 1px) 0 0 / 32px 32px,
+          linear-gradient(90deg, rgba(0, 240, 255, 0.035) 1px, transparent 1px) 0 0 / 32px 32px,
+          var(--bg);
+        background-attachment: fixed;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.18) 0 1px, transparent 1px 3px);
+        mix-blend-mode: multiply;
+      }
+      h1 {
+        font-family: var(--mono);
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--accent);
+        text-shadow: 0 0 12px rgba(0, 240, 255, 0.7);
+      }
+      h2 {
+        font-family: var(--mono);
+        color: var(--accent);
+        opacity: 0.85;
+      }
+      h2::before {
+        content: '// ';
+        color: var(--market);
+      }
+      section {
+        border-color: var(--line);
+        box-shadow:
+          0 0 0 1px rgba(0, 240, 255, 0.04),
+          0 0 24px rgba(0, 240, 255, 0.05) inset;
+        backdrop-filter: blur(2px);
+      }
+      nav button {
+        font-family: var(--mono);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 13px;
+      }
+      nav button.active {
+        color: var(--accent);
+        text-shadow: 0 0 8px rgba(0, 240, 255, 0.8);
+      }
+      .pill.on {
+        color: var(--good);
+        border-color: rgba(57, 255, 136, 0.4);
+        box-shadow: 0 0 8px rgba(57, 255, 136, 0.2);
+      }
+      .up {
+        color: var(--good);
+      }
+      .glow {
+        text-shadow: 0 0 10px currentColor;
+      }
+
+      /* hero */
+      .hero-top {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 24px;
+        align-items: center;
+      }
+      @media (max-width: 900px) {
+        .hero-top {
+          grid-template-columns: 1fr;
+        }
+      }
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 12px;
+        letter-spacing: 2px;
+        color: var(--market);
+        text-transform: uppercase;
+      }
+      .question {
+        font-size: 30px;
+        line-height: 1.25;
+      }
+      .question .strike {
+        color: var(--accent);
+        text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+        font-family: var(--mono);
+      }
+      .clockbox {
+        text-align: right;
+      }
+      .digits {
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+        font-family: var(--mono);
+        font-size: 88px;
+        line-height: 1;
+        font-weight: 700;
+        color: var(--accent);
+        text-shadow:
+          0 0 18px rgba(0, 240, 255, 0.75),
+          0 0 2px #fff;
+        letter-spacing: 2px;
+      }
+      .digits.hot {
+        color: var(--market);
+        text-shadow:
+          0 0 18px rgba(255, 43, 214, 0.8),
+          0 0 2px #fff;
+        animation: pulse 1s infinite;
+      }
+      .digits.done {
+        color: var(--base);
+        text-shadow: 0 0 18px rgba(245, 217, 10, 0.7);
+      }
+      @keyframes pulse {
+        50% {
+          opacity: 0.6;
+        }
+      }
+      .phase,
+      .gap {
+        font-family: var(--mono);
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--muted);
+        /* fixed single lines, so the hero never changes height while it updates */
+        height: 1.6em;
+        line-height: 1.6em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .gap {
+        letter-spacing: 1px;
+        font-size: 14px;
+      }
+      .progress {
+        position: relative;
+        height: 8px;
+        background: var(--panel2);
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        margin: 18px 0 6px;
+        overflow: visible;
+      }
+      .progress .done {
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent), var(--market));
+        box-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+        border-radius: 4px;
+      }
+      .progress .lock {
+        position: absolute;
+        top: -6px;
+        width: 2px;
+        height: 18px;
+        background: var(--base);
+        box-shadow: 0 0 8px var(--base);
+      }
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+        margin-top: 14px;
+      }
+      .step {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 8px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        color: var(--muted);
+        background: var(--panel2);
+      }
+      .step b {
+        display: block;
+        font-size: 13px;
+        color: inherit;
+      }
+      .step.done {
+        color: var(--good);
+        border-color: rgba(57, 255, 136, 0.35);
+      }
+      .step.now {
+        color: var(--accent);
+        border-color: var(--accent);
+        box-shadow: 0 0 14px rgba(0, 240, 255, 0.35);
+      }
+      .bar .value {
+        text-shadow: 0 0 14px currentColor;
+      }
+      .bar .fill {
+        box-shadow: 0 0 10px currentColor;
+      }
+      .verdict {
+        border-left-color: var(--market);
+        font-family: var(--mono);
+        font-size: 14px;
+      }
+      .result {
+        margin-top: 16px;
+        padding: 16px 18px;
+        border-radius: 8px;
+        font-family: var(--mono);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+        align-items: center;
+      }
+      .result.win {
+        border: 1px solid rgba(57, 255, 136, 0.6);
+        background: rgba(57, 255, 136, 0.07);
+        box-shadow: 0 0 22px rgba(57, 255, 136, 0.2);
+      }
+      .result.loss {
+        border: 1px solid rgba(255, 59, 107, 0.6);
+        background: rgba(255, 59, 107, 0.07);
+        box-shadow: 0 0 22px rgba(255, 59, 107, 0.2);
+      }
+      .result .big-outcome {
+        font-size: 34px;
+        font-weight: 700;
+      }
+      .chip {
+        font-family: var(--mono);
+      }
+      .chip.active {
+        color: var(--accent);
+        border-color: var(--accent);
+        box-shadow: 0 0 10px rgba(0, 240, 255, 0.35);
+      }
+
+      /* results grid */
+      .cells {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 5px;
+        margin: 12px 0;
+      }
+      .cell {
+        aspect-ratio: 1;
+        border-radius: 4px;
+        display: grid;
+        place-items: center;
+        font-family: var(--mono);
+        font-size: 11px;
+        color: #001;
+        font-weight: 700;
+      }
+      .cell.hit {
+        background: var(--good);
+        box-shadow: 0 0 8px rgba(57, 255, 136, 0.6);
+      }
+      .cell.miss {
+        background: var(--bad);
+        box-shadow: 0 0 8px rgba(255, 59, 107, 0.6);
+      }
+      .cell.flat {
+        background: #1b2735;
+        color: var(--muted);
+      }
+      .rates .row b {
+        font-family: var(--mono);
+        font-size: 18px;
+      }
+      #price-chart {
+        max-height: 340px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Sibyl <small>the forecaster that remembers who was right</small></h1>
+      <div class="pills" id="pills"></div>
+    </header>
+    <nav id="tabs">
+      <button data-tab="live" class="active">Live</button>
+      <button data-tab="track">Track record</button>
+      <button data-tab="lessons">Lessons</button>
+      <button data-tab="payments">Payments</button>
+      <button data-tab="proofs">Proofs</button>
+      <button data-tab="hood">Under the hood</button>
+    </nav>
+
+    <main>
+      <!-- LIVE -->
+      <div class="tab active" id="tab-live">
+        <section class="s12" id="hero"><p class="muted">Waiting for the next market…</p></section>
+        <section class="s8">
+          <h2>Live BTC price vs the question</h2>
+          <canvas id="price-chart"></canvas>
+          <p class="small muted">
+            Price: Coinbase, every 2 seconds (display only). The call settles on the venue's own
+            oracle: Pyth for DeepBook, CF Benchmarks for Kalshi.
+          </p>
+        </section>
+        <section class="s4">
+          <h2>Results</h2>
+          <div id="results"></div>
+        </section>
+        <section class="s4">
+          <h2>Who it listened to</h2>
+          <div id="why-trust"></div>
+        </section>
+        <section class="s4">
+          <h2>What it remembered</h2>
+          <div id="why-memory"></div>
+        </section>
+        <section class="s4">
+          <h2>What it paid for</h2>
+          <div id="why-paid"></div>
+        </section>
+        <section class="s6">
+          <h2>Is Sibyl any good?</h2>
+          <div id="good"></div>
+        </section>
+        <section class="s6">
+          <h2>What it has learned</h2>
+          <div id="learned"></div>
+        </section>
+        <section class="s12">
+          <h2>Don't trust us, verify</h2>
+          <div id="verify"></div>
+        </section>
+      </div>
+
+      <!-- TRACK RECORD -->
+      <div class="tab" id="tab-track">
+        <section class="s8">
+          <h2>Accuracy over time · rolling Brier score (lower is better)</h2>
+          <canvas id="curve"></canvas>
+        </section>
+        <section class="s4">
+          <h2>Scoreboard</h2>
+          <div id="scoreboard"></div>
+        </section>
+        <section class="s6">
+          <h2>Paper trading · memory vs no memory</h2>
+          <div id="trades"></div>
+        </section>
+        <section class="s6">
+          <h2>Recent calls</h2>
+          <div class="scroll"><table id="calls"></table></div>
+        </section>
+      </div>
+
+      <!-- LESSONS -->
+      <div class="tab" id="tab-lessons">
+        <section class="s12">
+          <h2>Everything Sibyl has learned</h2>
+          <p class="muted small">
+            A lesson is a statistically tested finding (at least 30 events, corrected for testing
+            many ideas at once). It is promoted when the evidence is strong and retired when it
+            fades. Every change is written to Walrus Memory.
+          </p>
+          <div id="all-lessons"></div>
+        </section>
+      </div>
+
+      <!-- PAYMENTS -->
+      <div class="tab" id="tab-payments">
+        <section class="s12">
+          <h2>Paying analysts per signal (USDC over MPP on Sui)</h2>
+          <p class="muted small">
+            Analysts are AI agents that sell forecasts. Before each purchase Sibyl checks its
+            memory: has this analyst made its forecasts better in situations like this one, by more
+            than the price? It buys if yes, explores 10% of the time, and never buys an analyst a
+            lesson has ruled out. Trusted analysts charge more.
+          </p>
+          <div id="payments"></div>
+        </section>
+      </div>
+
+      <!-- PROOFS -->
+      <div class="tab" id="tab-proofs">
+        <section class="s6">
+          <h2>Resolved calls</h2>
+          <div class="scroll"><table id="resolved"></table></div>
+        </section>
+        <section class="s6">
+          <h2>Receipt</h2>
+          <div id="detail" class="muted">
+            Pick a call to see every forecast, its Merkle proof, the Sui transaction that committed
+            it before the close, and the Walrus memories it produced.
+          </div>
+        </section>
+      </div>
+
+      <!-- UNDER THE HOOD -->
+      <div class="tab" id="tab-hood">
+        <section class="s12"><div class="stats" id="hood-stats"></div></section>
+        <section class="s12">
+          <h2>Live council (all voices)</h2>
+          <div class="scroll"><table id="council"></table></div>
+        </section>
+        <section class="s12">
+          <h2>Tatum gRPC stream · live chain events</h2>
+          <div class="stats" id="streams"></div>
+          <div class="scroll" style="margin-top: 10px; max-height: 240px">
+            <table id="chain-feed"></table>
+          </div>
+        </section>
+        <section class="s6">
+          <h2>Trust by context (Hedge weights)</h2>
+          <input type="range" id="brain-time" min="0" max="1000" value="1000" />
+          <p class="small muted" id="brain-label">now</p>
+          <div class="heat" id="heat"></div>
+        </section>
+        <section class="s6">
+          <h2>Walrus Memory</h2>
+          <div class="stats" id="namespaces"></div>
+          <div class="scroll" id="memories" style="margin-top: 10px"></div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      // ---------- helpers ----------
+      const $ = (id) => document.getElementById(id);
+      const esc = (s) =>
+        String(s ?? '').replace(
+          /[&<>"']/g,
+          (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
+        );
+      const pct = (p, d = 0) => (p == null ? '—' : `${(p * 100).toFixed(d)}%`);
+      const pts = (x) => `${Math.abs(x * 100).toFixed(1)} points`;
+      const num = (x, d = 3) => (x == null || !Number.isFinite(+x) ? '—' : (+x).toFixed(d));
+      const usd = (x) => (x == null ? '—' : `${x < 0 ? '−' : ''}$${Math.abs(+x).toFixed(2)}`);
+      const clock = (ms) =>
+        new Date(ms).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const clockS = (ms) =>
+        new Date(ms).toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+        });
+      const countdown = (ms) => {
+        const s = Math.max(0, Math.round((ms - Date.now()) / 1000));
+        return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+      };
+      const get = (path) =>
+        fetch(path).then((r) =>
+          r.ok ? r.json() : Promise.reject(new Error(`${path} ${r.status}`)),
+        );
+      const NAMES = {
+        deepbook: 'DeepBook (on-chain market)',
+        kalshi: 'Kalshi',
+        polymarket: 'Polymarket',
+        'analyst:momentum': 'Momentum analyst',
+        'analyst:meanrev': 'Mean-reversion analyst',
+        'analyst:randomwalk': 'Random-walk analyst',
+        'ensemble:memory': 'Sibyl',
+        'ensemble:baseline': 'No-memory baseline',
+      };
+      const nameOf = (voice) => NAMES[voice] ?? voice;
+      let state = null;
+      const suiscan = (network, digest, text) =>
+        `<a target="_blank" href="https://suiscan.xyz/${network}/tx/${encodeURIComponent(digest)}">${esc(text ?? digest.slice(0, 8) + '…')}</a>`;
+      const writeTx = (digest, text) =>
+        digest ? suiscan(state.modes.writeNetwork, digest, text) : '';
+
+      // ---------- tabs ----------
+      let activeTab = 'live';
+      for (const button of document.querySelectorAll('#tabs button')) {
+        button.onclick = () => {
+          activeTab = button.dataset.tab;
+          history.replaceState(
+            null,
+            '',
+            activeTab === 'live' ? location.pathname : `#${activeTab}`,
+          );
+          document
+            .querySelectorAll('#tabs button')
+            .forEach((b) => b.classList.toggle('active', b === button));
+          document
+            .querySelectorAll('.tab')
+            .forEach((t) => t.classList.toggle('active', t.id === `tab-${activeTab}`));
+          refresh();
+        };
+      }
+
+      // ---------- live: hero ----------
+      let featuredId = null;
+      const HORIZON_RANK = { '15m': 0, '5m': 1, '30m': 2, '60m': 3, '1m': 4 };
+
+      const HORIZON_MS = { '1m': 60e3, '5m': 300e3, '15m': 900e3, '30m': 1800e3, '60m': 3600e3 };
+      let autoFeatured = true;
+
+      /** Show a call that just settled (its result moment), else the most interesting live call. */
+      function pickFeatured(events) {
+        const now = Date.now();
+        if (!autoFeatured) {
+          const chosen = events.find((e) => e.id === featuredId);
+          if (chosen) return chosen;
+          autoFeatured = true;
+        }
+        const byRank = (a, b) =>
+          HORIZON_RANK[a.horizon] - HORIZON_RANK[b.horizon] || a.expiryMs - b.expiryMs;
+        const justSettled = events
+          .filter((e) => e.status === 'resolved' && now - e.expiryMs < 60_000 && e.horizon !== '1m')
+          .sort(byRank);
+        const settling = events
+          .filter(
+            (e) =>
+              e.status === 'open' && e.expiryMs <= now && e.forecasts.length && e.horizon !== '1m',
+          )
+          .sort(byRank);
+        const live = events.filter((e) => e.expiryMs > now && e.forecasts.length).sort(byRank);
+        const next = events.filter((e) => e.expiryMs > now).sort(byRank);
+        return justSettled[0] ?? settling[0] ?? live[0] ?? next[0] ?? events[0] ?? null;
+      }
+
+      function verdictOf(e, marketName) {
+        if (!e.forecasts.length)
+          return `Sibyl makes its call at ${clockS(e.locksAtMs)}, after hearing from every voice.`;
+        if (e.edge == null) return 'Not enough voices to compare with the market.';
+        const side = e.edge > 0 ? 'too low' : 'too high';
+        const view = `Sibyl's independent view: ${marketName} is <b>${pts(e.edge)} ${side}</b>.`;
+        const bet = e.trades.find((t) => t.model === 'memory');
+        if (bet)
+          return `${view} <b>Bought ${bet.side.toUpperCase()} · $${bet.stake.toFixed(2)}</b> (${state.modes.trade}) ${writeTx(bet.digest, 'tx ↗')}`;
+        if (e.source !== 'deepbook') return `${view} No bet: Sibyl trades DeepBook only.`;
+        if (e.horizon !== '5m') return `${view} No bet: Sibyl only trades the 5-minute markets.`;
+        if (Math.abs(e.edge) < e.edgeThreshold)
+          return `${view} No bet: needs ${pts(e.edgeThreshold)} of edge here.`;
+        return `${view} No bet (daily stake cap reached).`;
+      }
+
+      /** Where the call is in its life: sampling -> locked -> committed -> closed -> settled. */
+      function phaseOf(e, now = Date.now()) {
+        if (e.status === 'resolved') return 4;
+        if (now >= e.expiryMs) return 3;
+        if (e.anchor) return 2;
+        if (e.forecasts.length) return 1;
+        return 0;
+      }
+
+      const mmss = (ms) => {
+        const s = Math.max(0, Math.round(ms / 1000));
+        return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+      };
+
+      function clockView(e, now = Date.now()) {
+        const phase = phaseOf(e, now);
+        if (phase === 4)
+          return { digits: e.outcome ? 'UP' : 'DOWN', cls: 'done', label: 'settled' };
+        if (phase === 3)
+          return {
+            digits: `+${mmss(now - e.expiryMs)}`,
+            cls: 'done',
+            label: 'closed · waiting for the oracle',
+          };
+        const left = e.expiryMs - now;
+        const label = phase === 0 ? `locks in ${mmss(e.locksAtMs - now)}` : 'until close';
+        return { digits: mmss(left), cls: left < 30_000 ? 'hot' : '', label };
+      }
+
+      function progressOf(e, now = Date.now()) {
+        const open = e.expiryMs - HORIZON_MS[e.horizon];
+        const span = e.expiryMs - open;
+        return {
+          done: Math.min(100, Math.max(0, ((now - open) / span) * 100)),
+          lock: Math.min(100, Math.max(0, ((e.locksAtMs - open) / span) * 100)),
+        };
+      }
+
+      function resultBanner(e) {
+        if (e.status !== 'resolved') return '';
+        const f = Object.fromEntries(e.forecasts.map((x) => [x.voice, x.p]));
+        const right = (p) => (p == null ? null : p > 0.5 === Boolean(e.outcome));
+        const mark = (p) =>
+          right(p) == null
+            ? '—'
+            : right(p)
+              ? '<span class="up">✓</span>'
+              : '<span class="down">✗</span>';
+        const sibyl = right(f['ensemble:memory']);
+        const bet = e.trades.find((t) => t.model === 'memory');
+        return `<div class="result ${sibyl ? 'win' : 'loss'}">
+            <div class="big-outcome ${e.outcome ? 'up' : 'down'} glow">${e.outcome ? '▲ UP' : '▼ DOWN'}</div>
+            <div>settled at <b>$${num(e.settlePrice, 2)}</b> vs strike $${Number(e.strike).toLocaleString()}</div>
+            <div>Sibyl ${pct(f['ensemble:memory'])} ${mark(f['ensemble:memory'])}</div>
+            <div>market ${pct(e.market)} ${mark(e.market)}</div>
+            <div>no memory ${pct(f['ensemble:baseline'])} ${mark(f['ensemble:baseline'])}</div>
+            ${bet ? `<div>bet ${bet.side.toUpperCase()} → <b class="${bet.pnl > 0 ? 'up' : 'down'}">${bet.pnl == null ? 'settling' : usd(bet.pnl)}</b></div>` : ''}
+          </div>`;
+      }
+
+      let lastCouncil = [];
+      let featured = null;
+      function renderHero(events) {
+        lastCouncil = events;
+        if (!events.length)
+          return ($('hero').innerHTML = '<p class="muted">Discovering live markets…</p>');
+        const e = pickFeatured(events);
+        featured = e;
+        featuredId = e.id;
+        const f = Object.fromEntries(e.forecasts.map((x) => [x.voice, x.p]));
+        const kalshi = e.marketVoice === 'kalshi';
+        const bar = (label, p, color, note) =>
+          `<div class="bar"><div class="label">${label}</div><div class="value" style="color:${color}">${pct(p)}</div>
+           <div class="track"><div class="fill" style="width:${(p ?? 0) * 100}%;background:${color};color:${color}"></div></div><div class="small muted">${note}</div></div>`;
+        const strike = Number(e.strike).toLocaleString(undefined, { maximumFractionDigits: 2 });
+        const phase = phaseOf(e);
+        const steps = [
+          ['sampling', 'voices asked'],
+          [
+            'locked',
+            e.forecasts.length
+              ? clockS(e.forecasts[0].locked_ms ?? e.locksAtMs)
+              : `at ${clockS(e.locksAtMs)}`,
+          ],
+          [
+            'on Sui',
+            e.anchor
+              ? writeTx(
+                  e.anchor.digest,
+                  e.anchor.status === 'confirmed' ? 'confirmed ↗' : 'committed ↗',
+                )
+              : 'commit before close',
+          ],
+          ['closed', clockS(e.expiryMs)],
+          ['settled', e.status === 'resolved' ? `$${num(e.settlePrice, 2)}` : 'oracle price'],
+        ];
+        const clock = clockView(e);
+        const prog = progressOf(e);
+        $('hero').innerHTML = `
+          <div class="hero-top">
+            <div>
+              <div class="eyebrow">${e.horizon} call · ${esc(e.source)} · ${esc(e.ctx ?? 'context set at lock')}</div>
+              <p class="question">Will Bitcoin be above <span class="strike">$${strike}</span> at ${clock_(e.expiryMs)}?</p>
+            </div>
+            <div class="clockbox">
+              <div class="digits ${clock.cls}" id="hero-digits">${clock.digits}</div>
+              <div class="phase" id="hero-phase">${clock.label}</div>
+              <div class="gap" id="hero-gap">${gapText(e)}</div>
+            </div>
+          </div>
+          <div class="progress"><div class="done" id="hero-progress" style="width:${prog.done}%"></div><div class="lock" style="left:${prog.lock}%" title="forecast lock"></div></div>
+          <div class="steps">${steps.map(([name, detail], i) => `<div class="step ${i < phase ? 'done' : i === phase ? 'now' : ''}"><b>${i < phase ? '✓ ' : ''}${name}</b>${detail}</div>`).join('')}</div>
+          <div class="bars">
+            ${bar('Sibyl says yes', f['ensemble:memory'], 'var(--accent)', 'with memory')}
+            ${bar(kalshi ? 'Kalshi says yes' : 'Market says yes', e.market, 'var(--market)', kalshi ? 'prediction market' : 'DeepBook Predict on Sui')}
+            ${bar('Without memory', f['ensemble:baseline'], 'var(--base)', 'equal trust in every voice')}
+          </div>
+          <div class="verdict">▶ ${verdictOf(e, kalshi ? 'Kalshi' : 'the DeepBook market')}</div>
+          ${resultBanner(e)}
+          <div class="chips">${events
+            .slice(0, 10)
+            .map(
+              (x) =>
+                `<button class="chip ${x.id === e.id ? 'active' : ''}" data-id="${esc(x.id)}">${x.status === 'resolved' ? (x.outcome ? '▲' : '▼') : x.expiryMs < Date.now() ? '…' : '●'} ${x.horizon} · ${clock_(x.expiryMs)} · ${x.source}</button>`,
+            )
+            .join('')}</div>`;
+        for (const chip of document.querySelectorAll('#hero .chip')) {
+          chip.onclick = () => {
+            featuredId = chip.dataset.id;
+            autoFeatured = false;
+            renderHero(lastCouncil);
+            drawPrice();
+          };
+        }
+        renderWhy(e);
+      }
+      const clock_ = (ms) => clock(ms);
+
+      /** Second line under the clock: where BTC is against the strike right now (or the result). */
+      let lastGap = null;
+      function gapText(e) {
+        if (e.status === 'resolved')
+          return `settled at <span class="${e.outcome ? 'up' : 'down'}">$${num(e.settlePrice, 2)}</span>`;
+        if (Date.now() >= e.expiryMs) return 'waiting for the settlement price';
+        if (!lastGap || lastGap.id !== e.id) return 'BTC vs strike: loading…';
+        return `BTC <span class="${lastGap.above ? 'up' : 'down'}">${lastGap.above ? '▲ above' : '▼ below'} strike by $${lastGap.diff.toFixed(2)}</span>`;
+      }
+
+      /** Every second: only the clock, the phase and the progress bar move. */
+      function tickHero() {
+        if (!featured) return;
+        const c = clockView(featured);
+        const digits = $('hero-digits');
+        if (!digits) return;
+        digits.textContent = c.digits;
+        digits.className = `digits ${c.cls}`;
+        $('hero-phase').textContent = c.label;
+        $('hero-progress').style.width = `${progressOf(featured).done}%`;
+        if (phaseOf(featured) === 3 && Date.now() - featured.expiryMs > 120_000 && autoFeatured)
+          renderHero(lastCouncil);
+      }
+
+      // ---------- live: price chart ----------
+      Chart.defaults.font.family = 'ui-monospace, SFMono-Regular, Menlo, monospace';
+      Chart.defaults.color = '#6f8aa3';
+      let priceChart;
+      const GREEN = '#39ff88';
+      const RED = '#ff3b6b';
+      const PINK = '#ff2bd6';
+
+      /** Vertical event markers, the labelled strike line and the live price badge. */
+      const markerPlugin = {
+        id: 'markers',
+        afterDatasetsDraw(chart) {
+          const { ctx, chartArea, scales } = chart;
+          const opts = chart.options.plugins.markers ?? {};
+          ctx.save();
+          ctx.font = '11px ui-monospace, monospace';
+
+          // vertical markers: lock, on Sui, close
+          for (const [i, m] of (opts.lines ?? []).entries()) {
+            const x = scales.x.getPixelForValue(m.at);
+            if (x < chartArea.left || x > chartArea.right) continue;
+            ctx.strokeStyle = m.color;
+            ctx.setLineDash(m.dash ?? [4, 4]);
+            ctx.lineWidth = 1.5;
+            ctx.shadowColor = m.color;
+            ctx.shadowBlur = 8;
+            ctx.beginPath();
+            ctx.moveTo(x, chartArea.top);
+            ctx.lineTo(x, chartArea.bottom);
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = m.color;
+            ctx.fillText(m.label, x + 4, chartArea.top + 12 + i * 14);
+          }
+
+          // strike: the reference price that decides UP or DOWN
+          if (opts.strike != null) {
+            const y = scales.y.getPixelForValue(opts.strike);
+            ctx.setLineDash([]);
+            ctx.strokeStyle = PINK;
+            ctx.lineWidth = 2;
+            ctx.shadowColor = PINK;
+            ctx.shadowBlur = 10;
+            ctx.beginPath();
+            ctx.moveTo(chartArea.left, y);
+            ctx.lineTo(chartArea.right, y);
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+            const label = `STRIKE $${Number(opts.strike).toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+            // Label on the right, under the line, clear of the price badge (which sits above).
+            const labelWidth = ctx.measureText(label).width + 10;
+            ctx.fillStyle = 'rgba(4,6,12,0.85)';
+            ctx.fillRect(chartArea.right - labelWidth - 4, y + 4, labelWidth, 16);
+            ctx.fillStyle = PINK;
+            ctx.fillText(label, chartArea.right - labelWidth + 1, y + 16);
+            ctx.fillStyle = GREEN;
+            ctx.fillText('▲ UP zone', chartArea.left + 6, chartArea.top + 14);
+            ctx.fillStyle = RED;
+            ctx.fillText('▼ DOWN zone', chartArea.left + 6, chartArea.bottom - 6);
+          }
+
+          // live price badge at the last point
+          if (opts.last) {
+            const x = Math.min(scales.x.getPixelForValue(opts.last.x), chartArea.right);
+            const y = scales.y.getPixelForValue(opts.last.y);
+            const above = opts.last.y > opts.strike;
+            const color = above ? GREEN : RED;
+            const diff = opts.last.y - opts.strike;
+            const text = `$${opts.last.y.toLocaleString(undefined, { maximumFractionDigits: 2 })}  ${above ? '▲' : '▼'} ${diff >= 0 ? '+' : '−'}$${Math.abs(diff).toFixed(2)}`;
+            ctx.fillStyle = color;
+            ctx.shadowColor = color;
+            ctx.shadowBlur = 12;
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            const width = ctx.measureText(text).width + 12;
+            const bx = Math.min(x + 10, chartArea.right - width);
+            ctx.fillStyle = 'rgba(4,6,12,0.85)';
+            ctx.fillRect(bx, y - 22, width, 18);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 1;
+            ctx.strokeRect(bx, y - 22, width, 18);
+            ctx.fillStyle = color;
+            ctx.fillText(text, bx + 6, y - 9);
+          }
+          ctx.restore();
+        },
+      };
+
+      async function drawPrice() {
+        const e = featured;
+        if (!e || activeTab !== 'live') return;
+        const windowOpen = e.expiryMs - HORIZON_MS[e.horizon];
+        const from = Math.min(windowOpen - 3 * 60_000, Date.now() - 6 * 60_000);
+        const to = Math.max(
+          e.expiryMs + 60_000,
+          Math.min(Date.now() + 30_000, e.expiryMs + 5 * 60_000),
+        );
+        const ticks = await get(`/api/ticks?since=${from}`);
+        const price = ticks.filter((t) => t.t <= to).map((t) => ({ x: t.t, y: t.p }));
+        const last = price.at(-1);
+
+        // Keep the strike in view, centred, with room for the price on either side.
+        const values = [
+          ...price.map((p) => p.y),
+          e.strike,
+          ...(e.settlePrice ? [e.settlePrice] : []),
+        ];
+        const reach = Math.max(...values.map((v) => Math.abs(v - e.strike)), 5) * 1.25;
+
+        const settled =
+          e.status === 'resolved' && e.settlePrice ? [{ x: e.expiryMs, y: e.settlePrice }] : [];
+        const datasets = [
+          {
+            label: 'BTC price',
+            data: price,
+            borderColor: '#00f0ff',
+            borderWidth: 2,
+            pointRadius: 0,
+            tension: 0.15,
+            fill: {
+              target: { value: e.strike },
+              above: 'rgba(57,255,136,0.16)',
+              below: 'rgba(255,59,107,0.16)',
+            },
+          },
+          {
+            label:
+              e.status === 'resolved'
+                ? `settled ${e.outcome ? 'UP' : 'DOWN'} at $${num(e.settlePrice, 2)}`
+                : 'settlement (at close)',
+            data: settled,
+            borderColor: e.outcome ? GREEN : RED,
+            backgroundColor: e.outcome ? GREEN : RED,
+            pointRadius: 8,
+            pointStyle: 'rectRot',
+            showLine: false,
+          },
+        ];
+        const lines = [
+          { at: e.locksAtMs, color: '#f5d90a', label: 'LOCK' },
+          ...(e.anchor ? [{ at: e.anchor.at_ms, color: GREEN, label: 'ON SUI' }] : []),
+          { at: e.expiryMs, color: PINK, label: 'CLOSE', dash: [] },
+        ];
+        const axis = { ticks: { color: '#6f8aa3' }, grid: { color: 'rgba(0,240,255,0.06)' } };
+        const options = {
+          animation: false,
+          parsing: false,
+          scales: {
+            x: {
+              ...axis,
+              type: 'linear',
+              min: from,
+              max: to,
+              ticks: { ...axis.ticks, callback: (v) => clock(v) },
+            },
+            y: {
+              ...axis,
+              min: e.strike - reach,
+              max: e.strike + reach,
+              ticks: {
+                ...axis.ticks,
+                callback: (v) =>
+                  '$' + Number(v).toLocaleString(undefined, { maximumFractionDigits: 0 }),
+              },
+            },
+          },
+          plugins: {
+            legend: { labels: { color: '#d7f6ff', boxWidth: 12 } },
+            markers: { lines, strike: e.strike, last: e.status === 'resolved' ? null : last },
+            tooltip: {
+              callbacks: {
+                title: (items) => clockS(items[0].parsed.x),
+                label: (item) =>
+                  `$${item.parsed.y.toFixed(2)} (${item.parsed.y > e.strike ? '▲ above' : '▼ below'} strike by $${Math.abs(item.parsed.y - e.strike).toFixed(2)})`,
+              },
+            },
+          },
+        };
+        if (priceChart) {
+          priceChart.data.datasets = datasets;
+          priceChart.options = options;
+          priceChart.update();
+        } else
+          priceChart = new Chart($('price-chart'), {
+            type: 'line',
+            data: { datasets },
+            options,
+            plugins: [markerPlugin],
+          });
+        if (last && e.status === 'open' && Date.now() < e.expiryMs) {
+          const above = last.y > e.strike;
+          lastGap = { id: e.id, above, diff: Math.abs(last.y - e.strike) };
+          $('hero-gap').innerHTML = gapText(e);
+        }
+      }
+
+      // ---------- live: results ----------
+      function renderResults(events) {
+        const live = events.filter((e) => !e.id.startsWith('backfill:')).slice(0, 40);
+        if (!live.length)
+          return ($('results').innerHTML = '<p class="muted">Results appear as calls settle.</p>');
+        const verdict = (e, voice) => {
+          const p = e.forecasts.find((f) => f.voice === voice)?.p;
+          return p == null || Math.abs(p - 0.5) < 1e-9 ? null : p > 0.5 === Boolean(e.outcome);
+        };
+        const rate = (voice) => {
+          const calls = live.map((e) => verdict(e, voice)).filter((x) => x !== null);
+          return calls.length ? { hit: calls.filter(Boolean).length, n: calls.length } : null;
+        };
+        const marketRate = (() => {
+          const calls = live
+            .map((e) => verdict(e, e.source === 'kalshi' ? 'kalshi' : 'deepbook'))
+            .filter((x) => x !== null);
+          return calls.length ? { hit: calls.filter(Boolean).length, n: calls.length } : null;
+        })();
+        let streak = 0;
+        for (const e of live) {
+          if (verdict(e, 'ensemble:memory') !== true) break;
+          streak++;
+        }
+        const line = (label, r, color) =>
+          `<div class="row"><div>${label} <span class="small muted">${r ? `${r.hit}/${r.n}` : ''}</span><div class="minibar"><div style="width:${r ? (r.hit / r.n) * 100 : 0}%;background:${color}"></div></div></div><b style="color:${color}">${r ? pct(r.hit / r.n) : '—'}</b></div>`;
+        $('results').innerHTML =
+          `<p class="small muted">Last ${live.length} settled calls (oldest bottom-right). Green = Sibyl called the right side.</p>
+          <div class="cells">${live
+            .map((e) => {
+              const v = verdict(e, 'ensemble:memory');
+              return `<div class="cell ${v == null ? 'flat' : v ? 'hit' : 'miss'}" title="${esc(`${e.horizon} ${clockS(e.expiry_ms)} BTC>${e.strike} → ${e.outcome ? 'UP' : 'DOWN'}`)}">${e.horizon.replace('m', '')}</div>`;
+            })
+            .join('')}</div>
+          <div class="rates">${line('Sibyl', rate('ensemble:memory'), 'var(--accent)')}${line('Market', marketRate, 'var(--market)')}${line('No memory', rate('ensemble:baseline'), 'var(--base)')}</div>
+          <p class="small">Current streak: <b class="up glow">${streak}</b> right in a row</p>`;
+      }
+
+      // ---------- live: why ----------
+      /** Every source Sibyl listens to, in a fixed order, so nothing is hidden. */
+      const ALL_SOURCES = [
+        'deepbook',
+        'kalshi',
+        'analyst:momentum',
+        'analyst:meanrev',
+        'analyst:randomwalk',
+      ];
+
+      /** Why a market source has no forecast for this call. */
+      function silenceReason(voice, e) {
+        if (!e.forecasts.length) return 'speaks when the call is locked';
+        if (voice === 'deepbook') return 'no DeepBook market closes at this time';
+        if (voice === 'kalshi') return 'no Kalshi market closes at this time';
+        return 'no forecast';
+      }
+
+      /** Why Sibyl saw an analyst's call but did not use it. */
+      function unusedReason(voice, e) {
+        const pay = e.payments.find((p) => `analyst:${p.agent}` === voice);
+        if (!pay) return 'not bought';
+        if (pay.decision === 'skip')
+          return `not bought: memory says it adds $${num(pay.voi, 4)} here, it costs $${num(pay.price, 4)}`;
+        if (pay.decision === 'excluded') return 'not bought: a lesson ruled it out here';
+        if (pay.decision === 'over-budget') return 'not bought: daily budget reached';
+        return pay.reason;
+      }
+
+      function renderSources(e, used, unused, excluded, weights, total) {
+        const usedBy = new Map(used.map((v) => [v.voice, v]));
+        const unusedBy = new Map(unused.map((v) => [v.voice, v]));
+        const known = [
+          ...new Set([...ALL_SOURCES, ...used.map((v) => v.voice), ...unused.map((v) => v.voice)]),
+        ];
+        const spoke = known
+          .filter((v) => usedBy.has(v))
+          .sort((a, b) => (weights[b] ?? 0) - (weights[a] ?? 0));
+        const watched = known.filter((v) => unusedBy.has(v));
+        const silent = known.filter((v) => !usedBy.has(v) && !unusedBy.has(v));
+        const row = (voice) => {
+          const v = usedBy.get(voice);
+          const w = (weights[voice] ?? 1 / used.length) / total;
+          const pay = e.payments.find((p) => `analyst:${p.agent}` === voice);
+          const paid =
+            pay && (pay.decision === 'paid' || pay.decision === 'bought')
+              ? ` <span class="tag paid">paid $${num(pay.price, 4)}</span> ${writeTx(pay.digest, '↗')}`
+              : pay?.decision === 'sample'
+                ? ' <span class="tag sample">free sample</span>'
+                : '';
+          return `<div class="row"><div>${esc(nameOf(voice))} <span class="muted small">says ${pct(v.p)}</span>${paid}
+            ${excluded.has(voice) ? '<br><span class="tag skip">left out of bets here by a lesson</span>' : ''}
+            <div class="minibar"><div style="width:${w * 100}%"></div></div></div><b class="num">${pct(w)}</b></div>`;
+        };
+        const shadow = (voice) =>
+          `<div class="row" style="opacity:0.7"><div>${esc(nameOf(voice))} <span class="muted small">says ${pct(unusedBy.get(voice).p)}</span> <span class="tag skip">not used</span>
+            <br><span class="small muted">${esc(unusedReason(voice, e))}</span></div><span class="muted small">0%</span></div>`;
+        const quiet = (voice) =>
+          `<div class="row" style="opacity:0.55"><div>${esc(nameOf(voice))}<br><span class="small muted">${esc(silenceReason(voice, e))}</span></div><span class="muted small">—</span></div>`;
+        return (
+          spoke.map(row).join('') +
+          (watched.length
+            ? `<p class="small muted" style="margin:12px 0 2px">Heard but not bought (scored for the record, not used)</p>${watched.map(shadow).join('')}`
+            : '') +
+          (silent.length
+            ? `<p class="small muted" style="margin:12px 0 2px">No forecast this time</p>${silent.map(quiet).join('')}`
+            : '') +
+          (e.ctx
+            ? `<p class="small muted">Weights are trust earned from past results in <code>${esc(e.ctx)}</code>, shared among the sources Sibyl used.</p>`
+            : '')
+        );
+      }
+
+      function renderWhy(e) {
+        const voices = e.forecasts.filter((f) => !f.voice.startsWith('ensemble:'));
+        const used = voices.filter((f) => f.used !== 0);
+        const unused = voices.filter((f) => f.used === 0);
+        const excluded = new Set(e.lessons.filter((l) => l.kind === 'beats').map((l) => l.voice));
+        const weights = Object.fromEntries(e.trust.map((t) => [t.voice, t.weight]));
+        const total = used.reduce((a, v) => a + (weights[v.voice] ?? 1 / used.length), 0) || 1;
+        $('why-trust').innerHTML = renderSources(e, used, unused, excluded, weights, total);
+
+        const r = e.recall;
+        $('why-memory').innerHTML = !r
+          ? '<p class="muted">Sibyl searches its memory when it locks its call.</p>'
+          : r.recalled == null
+            ? '<p class="muted">One-minute calls are too fast to look up; memory is searched on 5 and 15-minute calls.</p>'
+            : `<p class="small muted">Searched Walrus Memory for: <i>“${esc(r.description)}”</i></p>
+               ${
+                 r.recalled >= 5
+                   ? `<div class="big">${r.hits} of ${r.recalled}</div><p>similar past moments, Sibyl was right when it disagreed with the market like this.${r.adjustment ? ` So it needs <b>${pts(r.adjustment)} ${r.adjustment < 0 ? 'less' : 'more'}</b> edge before betting.` : ''}</p>`
+                   : `<p>Only ${r.recalled} similar moments so far; it needs 5 before memory changes anything.</p>`
+               }
+               ${r.matches
+                 .slice(0, 3)
+                 .map(
+                   (m) =>
+                     `<div class="memory"><span class="${m.councilRight ? 'up' : 'down'}">${m.councilRight ? 'Sibyl was right' : 'market was right'}</span> · ${esc(m.text.split(' | ')[0].replace(/^(EPISODE|BACKFILL) /, ''))}</div>`,
+                 )
+                 .join('')}`;
+
+        $('why-paid').innerHTML = e.payments.length
+          ? e.payments
+              .map(
+                (
+                  p,
+                ) => `<div class="row"><div>${esc(nameOf('analyst:' + p.agent))}<br><span class="small muted">${esc(p.reason)}</span></div>
+              <div style="text-align:right"><span class="tag ${p.decision}">${esc(p.decision)}</span><br><span class="small muted num">$${num(p.price, 4)}</span> ${writeTx(p.digest, '↗')}</div></div>`,
+              )
+              .join('')
+          : '<p class="muted">Analysts are asked when the call is locked.</p>';
+      }
+
+      // ---------- live: good, learned, verify ----------
+      function renderGood(board) {
+        const by = Object.fromEntries(board.allTime.map((x) => [x.voice, x]));
+        const mem = by['ensemble:memory'];
+        const base = by['ensemble:baseline'];
+        if (!mem || !base)
+          return ($('good').innerHTML =
+            '<p class="muted">Appears after the first resolved calls.</p>');
+        const better = (1 - mem.brier / base.brier) * 100;
+        const color = (voice) =>
+          voice === 'ensemble:memory'
+            ? 'var(--accent)'
+            : voice === 'ensemble:baseline'
+              ? 'var(--base)'
+              : '#3b4a5e';
+        const rows = board.allTime
+          .filter((x) => x.n >= 20)
+          .map(
+            (
+              x,
+            ) => `<div class="row"><div>${esc(nameOf(x.voice))} <span class="muted small">${x.n} calls</span>
+             <div class="minibar"><div style="width:${Math.max(4, (1 - x.brier / 0.35) * 100)}%;background:${color(x.voice)}"></div></div></div><b class="num">${num(x.brier, 3)}</b></div>`,
+          )
+          .join('');
+        $('good').innerHTML =
+          `<p>Over <b>${mem.n}</b> scored calls, Sibyl's error is <b class="${better >= 0 ? 'up' : 'down'}">${Math.abs(better).toFixed(1)}% ${better >= 0 ? 'lower' : 'higher'}</b> than the same voices without memory.</p>
+          ${rows}<p class="small muted">Error = Brier score, the average squared miss of the probability. Lower is better; always saying 50% scores 0.25.</p>`;
+      }
+
+      function lessonCard(l) {
+        const retired = l.status === 'RETIRED';
+        return `<div class="lesson ${retired ? 'retired' : ''}"><span class="tag ${retired ? '' : 'paid'}">${retired ? 'retired' : 'in force'}</span>
+          <span class="small muted">${esc(l.scope === 'sibyl' ? 'Sibyl' : nameOf(l.scope))} · ${esc(l.ctx)}</span>
+          <p>“${esc(l.statement)}”</p><p class="small"><span class="muted">So it will:</span> ${esc(l.action)}</p>
+          <span class="small muted">${l.n} events · p = ${Number(l.p_value).toExponential(1)}</span></div>`;
+      }
+
+      function renderLearned(lessons) {
+        const promoted = lessons.filter((l) => l.status === 'PROMOTED');
+        const retired = lessons.filter((l) => l.status === 'RETIRED');
+        $('learned').innerHTML = lessons.length
+          ? [...promoted.slice(0, 3), ...retired.slice(0, 1)].map(lessonCard).join('') +
+            `<p class="small muted">${promoted.length} lessons in force, ${retired.length} retired. <a href="#" id="see-lessons">See all</a></p>`
+          : '<p class="muted">Lessons appear once a condition has 30 scored events.</p>';
+        const link = $('see-lessons');
+        if (link)
+          link.onclick = (event) => {
+            event.preventDefault();
+            document.querySelector('[data-tab=lessons]').click();
+          };
+        $('all-lessons').innerHTML =
+          lessons.map(lessonCard).join('') || '<p class="muted">No lessons yet.</p>';
+      }
+
+      let lastAmnesia = null;
+      let amnesiaRunning = false;
+      function renderVerify(board) {
+        const a = board.lastAnchor;
+        const m = board.lastMemory;
+        const lead = board.anchorLeadMs ? `${Math.round(board.anchorLeadMs / 1000)} seconds` : '—';
+        const report = lastAmnesia
+          ? lastAmnesia.error
+            ? `<span class="down">${esc(lastAmnesia.error)}</span>`
+            : `Last test <span class="${lastAmnesia.pass ? 'up' : 'down'}"><b>${lastAmnesia.pass ? 'PASSED' : 'FAILED'}</b></span>: rebuilt ${lastAmnesia.restored.trust} trust snapshots, ${lastAmnesia.restored.lessons} lessons and ${lastAmnesia.restored.policies} policies from Walrus; next decisions ${lastAmnesia.pass ? 'identical' : 'differ'} in all ${lastAmnesia.contexts} conditions.`
+          : 'Not run yet.';
+        $('verify').innerHTML = `<div class="stats">
+            <div class="stat"><b>${a ? writeTx(a.digest, a.status === 'confirmed' ? 'confirmed ↗' : 'on chain ↗') : '—'}</b><span>Every call is committed on Sui before the close, on average <b>${lead}</b> early. Latest commitment: ${a ? a.count + ' forecasts' : '—'}.</span></div>
+            <div class="stat"><b>${m?.blob_id ? `<a target="_blank" href="https://walruscan.com/mainnet/blob/${encodeURIComponent(m.blob_id)}">${esc(m.blob_id.slice(0, 10))}… ↗</a>` : '—'}</b><span>What Sibyl learns lives in Walrus Memory on mainnet (latest write: ${esc(m?.namespace ?? '—')}).</span></div>
+          </div>
+          <p style="margin-top:14px"><button class="action" id="amnesia" ${amnesiaRunning ? 'disabled' : ''}>Wipe Sibyl's brain → rebuild it from Walrus</button></p>
+          <p class="small" id="amnesia-result">${amnesiaRunning ? 'Saving beliefs to Walrus, wiping them locally, rebuilding from Walrus only… (1–2 minutes)' : report}</p>`;
+        $('amnesia').onclick = runAmnesia;
+      }
+
+      async function runAmnesia() {
+        amnesiaRunning = true;
+        refresh();
+        lastAmnesia = await fetch('/api/amnesia', { method: 'POST' })
+          .then((r) => r.json())
+          .catch((error) => ({ error: String(error) }));
+        amnesiaRunning = false;
+        refresh();
+      }
+
+      // ---------- track record ----------
+      let chart;
+      const COLORS = {
+        'ensemble:memory': '#5cc8b0',
+        'ensemble:baseline': '#e8b04b',
+        deepbook: '#7aa2f7',
+        kalshi: '#c49bf0',
+      };
+      function renderCurve(curve) {
+        const datasets = Object.entries(curve)
+          .filter(([voice]) => COLORS[voice])
+          .map(([voice, points]) => ({
+            label: nameOf(voice),
+            data: points.map((p) => ({ x: p.n, y: p.brier })),
+            borderColor: COLORS[voice],
+            borderWidth: voice.startsWith('ensemble:') ? 3 : 1.5,
+            pointRadius: 0,
+            tension: 0.25,
+          }));
+        const axis = { ticks: { color: '#7d8da1' }, grid: { color: '#1a2532' } };
+        const options = {
+          animation: false,
+          parsing: false,
+          scales: {
+            x: {
+              ...axis,
+              type: 'linear',
+              title: { display: true, text: 'scored calls', color: '#7d8da1' },
+            },
+            y: axis,
+          },
+          plugins: { legend: { labels: { color: '#dbe4ee', boxWidth: 12 } } },
+        };
+        if (chart) {
+          chart.data.datasets = datasets;
+          chart.update();
+        } else chart = new Chart($('curve'), { type: 'line', data: { datasets }, options });
+      }
+
+      function renderScoreboard(board) {
+        const day = Object.fromEntries(board.lastDay.map((x) => [x.voice, x]));
+        $('scoreboard').innerHTML =
+          `<table><tr><th>Voice</th><th>All time</th><th>Last 24h</th></tr>${board.allTime
+            .map(
+              (x) =>
+                `<tr><td>${esc(nameOf(x.voice))}</td><td class="num">${num(x.brier)} <span class="muted">(${x.n})</span></td><td class="num">${num(day[x.voice]?.brier)}</td></tr>`,
+            )
+            .join('')}</table><p class="small muted">Brier score, lower is better.</p>`;
+      }
+
+      function renderTrades(t) {
+        const s = Object.fromEntries(t.summary.map((x) => [x.model, x]));
+        const box = (m, label) =>
+          `<div class="stat"><b class="${(s[m]?.pnl ?? 0) >= 0 ? 'up' : 'down'}">${usd(s[m]?.pnl ?? 0)}</b><span>${label} · ${s[m]?.n ?? 0} bets · ${s[m]?.wins ?? 0}/${s[m]?.settled ?? 0} won</span></div>`;
+        $('trades').innerHTML =
+          `<div class="stats">${box('memory', 'Sibyl')}${box('baseline', 'No memory')}</div>
+          <div class="scroll"><table><tr><th>Book</th><th>Bet</th><th>Belief vs price</th><th>Stake</th><th>P&amp;L</th></tr>${t.recent
+            .slice(0, 30)
+            .map(
+              (x) =>
+                `<tr><td>${x.model === 'memory' ? 'Sibyl' : 'No memory'}</td><td class="${x.side === 'up' ? 'up' : 'down'}">${esc(x.side)}</td><td class="num">${pct(x.belief)} vs ${pct(x.price)}</td><td class="num">${usd(x.stake)}</td><td class="num ${x.pnl > 0 ? 'up' : x.pnl < 0 ? 'down' : 'muted'}">${x.pnl == null ? 'open' : usd(x.pnl)}</td></tr>`,
+            )
+            .join('')}</table></div>`;
+      }
+
+      function resolvedRows(events, clickable) {
+        return events
+          .map((e) => {
+            const f = Object.fromEntries(e.forecasts.map((x) => [x.voice, x.p]));
+            const sib = f['ensemble:memory'];
+            const right = sib == null ? null : sib > 0.5 === Boolean(e.outcome);
+            return `<tr class="${clickable ? 'click' : ''}" data-id="${esc(e.id)}"><td>BTC &gt; $${Number(e.strike).toLocaleString()} <span class="small muted">${e.horizon} · ${clock(e.expiry_ms)}${e.id.startsWith('backfill:') ? ' · replay' : ''}</span></td>
+              <td class="${e.outcome ? 'up' : 'down'}">${e.outcome ? 'UP' : 'DOWN'}</td><td class="num">${pct(sib)} ${right == null ? '' : right ? '<span class="up">✓</span>' : '<span class="down">✗</span>'}</td><td class="num">${pct(f['ensemble:baseline'])}</td></tr>`;
+          })
+          .join('');
+      }
+
+      function renderCalls(events) {
+        const head = '<tr><th>Question</th><th>Outcome</th><th>Sibyl</th><th>No memory</th></tr>';
+        $('calls').innerHTML = head + resolvedRows(events, false);
+        $('resolved').innerHTML = head + resolvedRows(events, true);
+        for (const row of document.querySelectorAll('#resolved tr.click'))
+          row.onclick = () => showReceipt(row.dataset.id);
+      }
+
+      // ---------- payments ----------
+      function renderPayments(p) {
+        const totals = {};
+        for (const row of p.byAgent) (totals[row.agent] ??= {})[row.decision] = row;
+        const summary = Object.entries(totals)
+          .map(([agent, d]) => {
+            const bought = (d.paid?.n ?? 0) + (d.bought?.n ?? 0);
+            const asked = Object.values(d)
+              .filter((x) => x.decision !== 'sample')
+              .reduce((a, x) => a + x.n, 0);
+            const spent = (d.paid?.spent ?? 0) + (d.bought?.spent ?? 0);
+            return `<div class="stat"><b>${bought}/${asked}</b><span>${esc(nameOf('analyst:' + agent))} bought · $${num(spent, 3)} paid · ${d.sample?.n ?? 0} free samples</span></div>`;
+          })
+          .join('');
+        const rows = p.recent
+          .filter((x) => x.decision !== 'sample')
+          .slice(0, 50)
+          .map(
+            (x) =>
+              `<tr><td>${clockS(x.at_ms)}</td><td>${esc(nameOf('analyst:' + x.agent))}</td><td><span class="tag ${x.decision}">${esc(x.decision)}</span> ${writeTx(x.digest, 'tx ↗')}</td><td class="num">$${num(x.price, 4)}</td><td class="num">$${num(x.voi, 4)}</td><td class="small muted">${esc(x.reason)}</td></tr>`,
+          )
+          .join('');
+        $('payments').innerHTML =
+          `<div class="stats">${summary}</div><div class="scroll" style="margin-top:12px"><table><tr><th>Time</th><th>Analyst</th><th>Decision</th><th>Price</th><th>Value to Sibyl</th><th>Why</th></tr>${rows}</table></div>`;
+      }
+
+      // ---------- proofs ----------
+      async function showReceipt(id) {
+        const d = await get(`/api/event/${encodeURIComponent(id)}`);
+        const proofs = await Promise.all(
+          d.forecasts.map((f) => get(`/api/proof/${encodeURIComponent(f.id)}`).catch(() => null)),
+        );
+        const scores = Object.fromEntries(d.scores.map((s) => [s.voice, s]));
+        const anchor = proofs.find((p) => p?.anchor)?.anchor;
+        const replay = d.event.id.startsWith('backfill:');
+        $('detail').innerHTML =
+          `<p><b>Will Bitcoin be above $${Number(d.event.strike).toLocaleString()} at ${new Date(d.event.expiryMs).toLocaleString()}?</b><br>
+            Outcome: <b class="${d.event.outcome ? 'up' : 'down'}">${d.event.outcome ? 'UP' : 'DOWN'}</b> <span class="muted">(settled at ${num(d.event.settlePrice, 2)}) · ${esc(d.event.ctx)}</span></p>
+          <table><tr><th>Voice</th><th>Said</th><th>Error</th><th>Proof</th></tr>${d.forecasts
+            .map(
+              (f, i) =>
+                `<tr><td>${esc(nameOf(f.voice))}</td><td class="num">${pct(f.p, 1)}</td><td class="num">${num(scores[f.voice]?.brier, 3)}</td><td>${proofs[i] ? (proofs[i].valid ? '<span class="up">✓ valid</span>' : '<span class="down">invalid</span>') : '<span class="muted">—</span>'}</td></tr>`,
+            )
+            .join('')}</table>
+          ${replay ? '<p class="small muted">Historical replay: not committed on chain, because it was already in the past.</p>' : ''}
+          ${anchor ? `<p class="small">Committed on Sui ${Math.round((d.event.expiryMs - anchor.window_end_ms) / 1000)}s before the close · ${anchor.status} · ${writeTx(anchor.digest, 'transaction ↗')}<br>Merkle root <code>${esc(proofs.find((p) => p)?.root)}</code></p>` : ''}
+          ${d.recall?.recalled != null ? `<p class="small">Memory searched: <i>“${esc(d.recall.description)}”</i> → ${d.recall.recalled ?? 0} similar moments</p>` : ''}
+          ${d.memories.map((m) => `<div class="memory">Walrus · ${esc(m.namespace)}${m.blob_id ? ` · <a target="_blank" href="https://walruscan.com/mainnet/blob/${encodeURIComponent(m.blob_id)}">blob ↗</a>` : ''}\n${esc(m.text.split(' | {')[0])}</div>`).join('')}`;
+      }
+
+      // ---------- under the hood ----------
+      function renderHood(s, council, feed, memories) {
+        const calls = Object.values(s.tatum.calls).reduce((a, b) => a + b, 0);
+        const written = s.memory.byNamespace
+          .filter((x) => x.status === 'done')
+          .reduce((a, x) => a + x.n, 0);
+        $('hood-stats').innerHTML = [
+          ['open events', s.counts.open],
+          ['resolved', s.counts.resolved],
+          ['forecasts locked', s.counts.forecasts],
+          ['on-chain anchors', s.counts.anchors],
+          ['Walrus memories', written],
+          ['lessons in force', s.counts.lessons],
+          ['Tatum gRPC calls (this run)', calls],
+          ['volatility regime', s.volatility.regime],
+        ]
+          .map(([k, v]) => `<div class="stat"><b>${esc(v)}</b><span>${esc(k)}</span></div>`)
+          .join('');
+
+        const analysts = ['momentum', 'meanrev', 'randomwalk'];
+        $('council').innerHTML =
+          `<tr><th>Event</th><th>Closes</th><th>DeepBook</th><th>Kalshi</th>${analysts.map((a) => `<th>${a}</th>`).join('')}<th>Sibyl</th><th>No memory</th><th>Edge / needed</th></tr>` +
+          council
+            .map((e) => {
+              const f = Object.fromEntries(e.forecasts.map((x) => [x.voice, x.p]));
+              const cell = (v) => `<span class="num">${pct(f[v], 1)}</span>`;
+              const edge =
+                e.edge == null
+                  ? '—'
+                  : `${e.edge > 0 ? '+' : ''}${pct(e.edge, 1)} / ${pct(e.edgeThreshold, 1)}`;
+              return `<tr><td>BTC &gt; ${Number(e.strike).toLocaleString()}<br><span class="small muted">${e.horizon} · ${e.source} · ${esc(e.ctx ?? '')}</span></td><td class="num">${countdown(e.expiryMs)}</td>
+                <td>${cell('deepbook')}</td><td>${cell('kalshi')}</td>${analysts.map((a) => `<td>${cell('analyst:' + a)}</td>`).join('')}
+                <td><b>${cell('ensemble:memory')}</b></td><td>${cell('ensemble:baseline')}</td><td class="num">${edge}</td></tr>`;
+            })
+            .join('');
+
+        const res = s.streamResolutions;
+        const latency = res.count ? (res.totalLatencyMs / res.count / 1000).toFixed(1) + 's' : '—';
+        $('streams').innerHTML =
+          s.streams
+            .map(
+              (st) =>
+                `<div class="stat"><b class="${st.connected ? 'up' : 'warn'}">${st.connected ? '● live' : '○ reconnecting'}</b><span>${esc(st.network)} · ${esc(st.eventTypes[0].split('::').at(-1))} · checkpoint ${st.lastCheckpoint ?? '—'} · ${st.matched} seen</span></div>`,
+            )
+            .join('') +
+          `<div class="stat"><b>${res.count}</b><span>calls settled from the stream · avg ${latency} after close</span></div>`;
+        $('chain-feed').innerHTML =
+          '<tr><th>Seen</th><th>Event</th><th>Network</th><th>Checkpoint</th><th>Tx</th><th>Details</th></tr>' +
+          feed
+            .map((x) => {
+              const d = x.data;
+              const details =
+                x.kind === 'settled'
+                  ? `DeepBook market settled at $${(Number(d.settlement_price) / 1e9).toLocaleString()} (close ${clockS(Number(d.expiry))})`
+                  : `Sibyl commitment: ${esc(d.count)} forecasts`;
+              return `<tr><td class="num">${clockS(x.at_ms)}</td><td><span class="tag ${x.kind === 'anchored' ? 'paid' : ''}">${esc(x.kind)}</span></td><td>${esc(x.network)}</td><td class="num">${x.checkpoint}</td><td>${suiscan(x.network, x.digest)}</td><td class="small">${details}</td></tr>`;
+            })
+            .join('');
+
+        const byNs = {};
+        for (const x of s.memory.byNamespace) (byNs[x.namespace] ??= {})[x.status] = x.n;
+        $('namespaces').innerHTML = Object.entries(byNs)
+          .map(
+            ([ns, st]) =>
+              `<div class="stat"><b>${st.done ?? 0}</b><span>${esc(ns)}${st.queued || st.submitted ? ` · ${(st.queued ?? 0) + (st.submitted ?? 0)} pending` : ''}</span></div>`,
+          )
+          .join('');
+        $('memories').innerHTML = memories
+          .map(
+            (m) =>
+              `<div class="memory">${clockS(m.at_ms)} · ${esc(m.namespace)} · ${esc(m.status)}\n${esc(m.text.split(' | {')[0])}</div>`,
+          )
+          .join('');
+      }
+
+      let brainAt = null;
+      $('brain-time').oninput = async (event) => {
+        const range = await get('/api/trust-at');
+        if (!range.first) return;
+        const value = Number(event.target.value);
+        brainAt = value >= 1000 ? null : range.first + ((range.last - range.first) * value) / 1000;
+        $('brain-label').textContent = brainAt
+          ? `as of ${new Date(brainAt).toLocaleString()}`
+          : 'now';
+        renderTrust(
+          (await get(`/api/trust-at${brainAt ? `?at=${Math.round(brainAt)}` : ''}`)).weights,
+        );
+      };
+
+      function renderTrust(trust) {
+        if (!trust.length)
+          return ($('heat').innerHTML =
+            '<p class="muted">Weights appear after the first resolution.</p>');
+        const voices = [...new Set(trust.map((x) => x.voice))].sort();
+        const ctxs = [...new Set(trust.map((x) => x.ctx))].sort();
+        $('heat').style.gridTemplateColumns = `120px repeat(${voices.length}, minmax(48px, 1fr))`;
+        $('heat').innerHTML =
+          '<div></div>' +
+          voices.map((v) => `<div class="label">${esc(v.replace('analyst:', ''))}</div>`).join('') +
+          ctxs
+            .map(
+              (ctx) =>
+                `<div class="label">${esc(ctx)}</div>` +
+                voices
+                  .map((v) => {
+                    const w = trust.find((x) => x.ctx === ctx && x.voice === v)?.weight;
+                    return `<div style="background:${w == null ? 'var(--panel2)' : `rgba(92,200,176,${Math.min(0.9, 0.08 + w * 1.6)})`}">${w == null ? '' : (w * 100).toFixed(0)}</div>`;
+                  })
+                  .join(''),
+            )
+            .join('');
+      }
+
+      // ---------- refresh ----------
+      function renderPills(s) {
+        const m = s.modes;
+        const pill = (text, on) => `<span class="pill ${on ? 'on' : ''}">${esc(text)}</span>`;
+        $('pills').innerHTML = [
+          pill('Live', true),
+          pill(m.memory === 'WALRUS' ? 'Memory on Walrus' : 'Mock memory', m.memory === 'WALRUS'),
+          pill(`Calls proven on Sui ${m.writeNetwork}`, m.anchor === 'live'),
+          pill(`Chain data via ${m.rpc}`, m.rpc.startsWith('Tatum')),
+        ].join('');
+      }
+
+      async function refresh() {
+        try {
+          const [s, council] = await Promise.all([get('/api/state'), get('/api/council')]);
+          state = s;
+          renderPills(s);
+          if (activeTab === 'live') {
+            const [board, lessons, amnesia] = await Promise.all([
+              get('/api/scoreboard'),
+              get('/api/lessons'),
+              get('/api/amnesia'),
+            ]);
+            if (!lastAmnesia && amnesia) lastAmnesia = amnesia;
+            renderHero(council);
+            renderResults(await get('/api/events?status=resolved&limit=120'));
+            drawPrice();
+            renderGood(board);
+            renderLearned(lessons);
+            renderVerify(board);
+          } else if (activeTab === 'track') {
+            const [curve, board, trades, calls] = await Promise.all([
+              get('/api/curve'),
+              get('/api/scoreboard'),
+              get('/api/trades'),
+              get('/api/events?status=resolved&limit=60'),
+            ]);
+            renderCurve(curve);
+            renderScoreboard(board);
+            renderTrades(trades);
+            renderCalls(calls);
+          } else if (activeTab === 'lessons') {
+            renderLearned(await get('/api/lessons'));
+          } else if (activeTab === 'payments') {
+            renderPayments(await get('/api/payments?limit=1000'));
+          } else if (activeTab === 'proofs') {
+            renderCalls(await get('/api/events?status=resolved&limit=100'));
+          } else if (activeTab === 'hood') {
+            const [feed, memories, trust] = await Promise.all([
+              get('/api/chain-events?limit=40'),
+              get('/api/memories?limit=60'),
+              get('/api/trust'),
+            ]);
+            renderHood(s, council, feed, memories);
+            if (brainAt === null) renderTrust(trust);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      // Deep links: /#lessons, /#proofs, ...
+      const fromHash = document.querySelector(`#tabs button[data-tab="${location.hash.slice(1)}"]`);
+      if (fromHash) fromHash.click();
+      else refresh();
+      setInterval(refresh, 5000);
+      // Tick the hero countdown every second without re-rendering the page.
+      setInterval(tickHero, 1000);
+      setInterval(drawPrice, 2000);
+    </script>
+  </body>
+</html>

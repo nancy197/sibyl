@@ -1,0 +1,1798 @@
+{
+  "hook": {
+    "text": "Markets disagree. Bots disagree. AI agents disagree. So... who do you trust?",
+    "duration": 5.851,
+    "words": [
+      {
+        "text": "Markets",
+        "start": 0,
+        "end": 0.418
+      },
+      {
+        "text": "disagree.",
+        "start": 0.464,
+        "end": 1.103
+      },
+      {
+        "text": "Bots",
+        "start": 1.312,
+        "end": 1.625
+      },
+      {
+        "text": "disagree.",
+        "start": 1.672,
+        "end": 2.276
+      },
+      {
+        "text": "AI",
+        "start": 2.485,
+        "end": 2.856
+      },
+      {
+        "text": "agents",
+        "start": 2.902,
+        "end": 3.193
+      },
+      {
+        "text": "disagree.",
+        "start": 3.228,
+        "end": 3.785
+      },
+      {
+        "text": "So...",
+        "start": 3.994,
+        "end": 4.435
+      },
+      {
+        "text": "who",
+        "start": 4.714,
+        "end": 4.876
+      },
+      {
+        "text": "do",
+        "start": 4.911,
+        "end": 4.969
+      },
+      {
+        "text": "you",
+        "start": 5.004,
+        "end": 5.074
+      },
+      {
+        "text": "trust?",
+        "start": 5.12,
+        "end": 5.851
+      }
+    ]
+  },
+  "intro": {
+    "text": "Meet Sibyl. A forecasting agent that remembers who was right.",
+    "duration": 3.762,
+    "words": [
+      {
+        "text": "Meet",
+        "start": 0,
+        "end": 0.279
+      },
+      {
+        "text": "Sibyl.",
+        "start": 0.348,
+        "end": 0.848
+      },
+      {
+        "text": "A",
+        "start": 1.022,
+        "end": 1.103
+      },
+      {
+        "text": "forecasting",
+        "start": 1.196,
+        "end": 1.811
+      },
+      {
+        "text": "agent",
+        "start": 1.881,
+        "end": 2.159
+      },
+      {
+        "text": "that",
+        "start": 2.183,
+        "end": 2.299
+      },
+      {
+        "text": "remembers",
+        "start": 2.357,
+        "end": 2.775
+      },
+      {
+        "text": "who",
+        "start": 2.81,
+        "end": 2.902
+      },
+      {
+        "text": "was",
+        "start": 2.949,
+        "end": 3.053
+      },
+      {
+        "text": "right.",
+        "start": 3.123,
+        "end": 3.762
+      }
+    ]
+  },
+  "council": {
+    "text": "Every few minutes, Sibyl asks one question: will Bitcoin be above this price when the market closes? It listens to DeepBook on Sui, to Kalshi, and to three AI analysts it pays per signal, in USDC, over MPP.",
+    "duration": 14.489,
+    "words": [
+      {
+        "text": "Every",
+        "start": 0,
+        "end": 0.29
+      },
+      {
+        "text": "few",
+        "start": 0.348,
+        "end": 0.499
+      },
+      {
+        "text": "minutes,",
+        "start": 0.546,
+        "end": 0.882
+      },
+      {
+        "text": "Sibyl",
+        "start": 0.975,
+        "end": 1.219
+      },
+      {
+        "text": "asks",
+        "start": 1.289,
+        "end": 1.428
+      },
+      {
+        "text": "one",
+        "start": 1.486,
+        "end": 1.614
+      },
+      {
+        "text": "question:",
+        "start": 1.649,
+        "end": 2.159
+      },
+      {
+        "text": "will",
+        "start": 2.543,
+        "end": 2.717
+      },
+      {
+        "text": "Bitcoin",
+        "start": 2.763,
+        "end": 3.204
+      },
+      {
+        "text": "be",
+        "start": 3.274,
+        "end": 3.39
+      },
+      {
+        "text": "above",
+        "start": 3.437,
+        "end": 3.692
+      },
+      {
+        "text": "this",
+        "start": 3.715,
+        "end": 3.843
+      },
+      {
+        "text": "price",
+        "start": 3.913,
+        "end": 4.249
+      },
+      {
+        "text": "when",
+        "start": 4.284,
+        "end": 4.412
+      },
+      {
+        "text": "the",
+        "start": 4.435,
+        "end": 4.505
+      },
+      {
+        "text": "market",
+        "start": 4.54,
+        "end": 4.807
+      },
+      {
+        "text": "closes?",
+        "start": 4.841,
+        "end": 5.41
+      },
+      {
+        "text": "It",
+        "start": 5.851,
+        "end": 5.991
+      },
+      {
+        "text": "listens",
+        "start": 6.049,
+        "end": 6.374
+      },
+      {
+        "text": "to",
+        "start": 6.42,
+        "end": 6.49
+      },
+      {
+        "text": "DeepBook",
+        "start": 6.571,
+        "end": 7.036
+      },
+      {
+        "text": "on",
+        "start": 7.105,
+        "end": 7.221
+      },
+      {
+        "text": "Sui,",
+        "start": 7.303,
+        "end": 7.86
+      },
+      {
+        "text": "to",
+        "start": 7.976,
+        "end": 8.081
+      },
+      {
+        "text": "Kalshi,",
+        "start": 8.15,
+        "end": 8.882
+      },
+      {
+        "text": "and",
+        "start": 9.033,
+        "end": 9.183
+      },
+      {
+        "text": "to",
+        "start": 9.23,
+        "end": 9.3
+      },
+      {
+        "text": "three",
+        "start": 9.392,
+        "end": 9.741
+      },
+      {
+        "text": "AI",
+        "start": 9.799,
+        "end": 10.205
+      },
+      {
+        "text": "analysts",
+        "start": 10.275,
+        "end": 10.762
+      },
+      {
+        "text": "it",
+        "start": 10.832,
+        "end": 10.948
+      },
+      {
+        "text": "pays",
+        "start": 11.006,
+        "end": 11.238
+      },
+      {
+        "text": "per",
+        "start": 11.297,
+        "end": 11.413
+      },
+      {
+        "text": "signal,",
+        "start": 11.459,
+        "end": 11.958
+      },
+      {
+        "text": "in",
+        "start": 12.132,
+        "end": 12.272
+      },
+      {
+        "text": "USDC,",
+        "start": 12.365,
+        "end": 13.212
+      },
+      {
+        "text": "over",
+        "start": 13.293,
+        "end": 13.537
+      },
+      {
+        "text": "MPP.",
+        "start": 13.584,
+        "end": 14.489
+      }
+    ]
+  },
+  "commit": {
+    "text": "Before the close, every forecast is hashed into a Merkle tree and committed on Sui, through Tatum's gRPC gateway. About seventy-five seconds early, on average. Nobody gets to rewrite history.",
+    "duration": 12.307,
+    "words": [
+      {
+        "text": "Before",
+        "start": 0,
+        "end": 0.348
+      },
+      {
+        "text": "the",
+        "start": 0.372,
+        "end": 0.441
+      },
+      {
+        "text": "close,",
+        "start": 0.488,
+        "end": 0.917
+      },
+      {
+        "text": "every",
+        "start": 0.964,
+        "end": 1.173
+      },
+      {
+        "text": "forecast",
+        "start": 1.219,
+        "end": 1.707
+      },
+      {
+        "text": "is",
+        "start": 1.765,
+        "end": 1.834
+      },
+      {
+        "text": "hashed",
+        "start": 1.892,
+        "end": 2.159
+      },
+      {
+        "text": "into",
+        "start": 2.194,
+        "end": 2.334
+      },
+      {
+        "text": "a",
+        "start": 2.392,
+        "end": 2.415
+      },
+      {
+        "text": "Merkle",
+        "start": 2.473,
+        "end": 2.763
+      },
+      {
+        "text": "tree",
+        "start": 2.786,
+        "end": 3.088
+      },
+      {
+        "text": "and",
+        "start": 3.262,
+        "end": 3.518
+      },
+      {
+        "text": "committed",
+        "start": 3.576,
+        "end": 3.913
+      },
+      {
+        "text": "on",
+        "start": 3.959,
+        "end": 4.029
+      },
+      {
+        "text": "Sui,",
+        "start": 4.098,
+        "end": 4.702
+      },
+      {
+        "text": "through",
+        "start": 5.027,
+        "end": 5.271
+      },
+      {
+        "text": "Tatum's",
+        "start": 5.329,
+        "end": 5.782
+      },
+      {
+        "text": "gRPC",
+        "start": 5.898,
+        "end": 6.618
+      },
+      {
+        "text": "gateway.",
+        "start": 6.769,
+        "end": 7.326
+      },
+      {
+        "text": "About",
+        "start": 7.767,
+        "end": 8.069
+      },
+      {
+        "text": "seventy-five",
+        "start": 8.15,
+        "end": 8.742
+      },
+      {
+        "text": "seconds",
+        "start": 8.766,
+        "end": 9.067
+      },
+      {
+        "text": "early,",
+        "start": 9.114,
+        "end": 9.346
+      },
+      {
+        "text": "on",
+        "start": 9.369,
+        "end": 9.451
+      },
+      {
+        "text": "average.",
+        "start": 9.509,
+        "end": 9.961
+      },
+      {
+        "text": "Nobody",
+        "start": 10.472,
+        "end": 10.89
+      },
+      {
+        "text": "gets",
+        "start": 10.937,
+        "end": 11.088
+      },
+      {
+        "text": "to",
+        "start": 11.122,
+        "end": 11.169
+      },
+      {
+        "text": "rewrite",
+        "start": 11.238,
+        "end": 11.54
+      },
+      {
+        "text": "history.",
+        "start": 11.575,
+        "end": 12.307
+      }
+    ]
+  },
+  "score": {
+    "text": "When the oracle settles, Sibyl scores every voice, in that exact market condition, and shifts its trust toward whoever was right.",
+    "duration": 8.127,
+    "words": [
+      {
+        "text": "When",
+        "start": 0,
+        "end": 0.197
+      },
+      {
+        "text": "the",
+        "start": 0.232,
+        "end": 0.302
+      },
+      {
+        "text": "oracle",
+        "start": 0.395,
+        "end": 0.836
+      },
+      {
+        "text": "settles,",
+        "start": 0.882,
+        "end": 1.358
+      },
+      {
+        "text": "Sibyl",
+        "start": 1.533,
+        "end": 1.846
+      },
+      {
+        "text": "scores",
+        "start": 1.892,
+        "end": 2.218
+      },
+      {
+        "text": "every",
+        "start": 2.334,
+        "end": 2.635
+      },
+      {
+        "text": "voice,",
+        "start": 2.705,
+        "end": 3.077
+      },
+      {
+        "text": "in",
+        "start": 3.1,
+        "end": 3.17
+      },
+      {
+        "text": "that",
+        "start": 3.216,
+        "end": 3.344
+      },
+      {
+        "text": "exact",
+        "start": 3.402,
+        "end": 3.878
+      },
+      {
+        "text": "market",
+        "start": 3.947,
+        "end": 4.238
+      },
+      {
+        "text": "condition,",
+        "start": 4.284,
+        "end": 4.888
+      },
+      {
+        "text": "and",
+        "start": 5.132,
+        "end": 5.283
+      },
+      {
+        "text": "shifts",
+        "start": 5.375,
+        "end": 5.735
+      },
+      {
+        "text": "its",
+        "start": 5.77,
+        "end": 5.921
+      },
+      {
+        "text": "trust",
+        "start": 5.979,
+        "end": 6.444
+      },
+      {
+        "text": "toward",
+        "start": 6.571,
+        "end": 6.85
+      },
+      {
+        "text": "whoever",
+        "start": 6.896,
+        "end": 7.233
+      },
+      {
+        "text": "was",
+        "start": 7.291,
+        "end": 7.419
+      },
+      {
+        "text": "right.",
+        "start": 7.488,
+        "end": 8.127
+      }
+    ]
+  },
+  "lessons": {
+    "text": "Patterns become lessons, but only after a statistical test. Kalshi beats the mean-reversion analyst in mid-volatility US hours. So there, Sibyl stops listening to it.",
+    "duration": 11.378,
+    "words": [
+      {
+        "text": "Patterns",
+        "start": 0,
+        "end": 0.511
+      },
+      {
+        "text": "become",
+        "start": 0.569,
+        "end": 1.01
+      },
+      {
+        "text": "lessons,",
+        "start": 1.184,
+        "end": 1.846
+      },
+      {
+        "text": "but",
+        "start": 2.02,
+        "end": 2.194
+      },
+      {
+        "text": "only",
+        "start": 2.241,
+        "end": 2.45
+      },
+      {
+        "text": "after",
+        "start": 2.508,
+        "end": 2.728
+      },
+      {
+        "text": "a",
+        "start": 2.775,
+        "end": 2.798
+      },
+      {
+        "text": "statistical",
+        "start": 2.844,
+        "end": 3.413
+      },
+      {
+        "text": "test.",
+        "start": 3.46,
+        "end": 3.855
+      },
+      {
+        "text": "Kalshi",
+        "start": 4.296,
+        "end": 4.725
+      },
+      {
+        "text": "beats",
+        "start": 4.795,
+        "end": 5.004
+      },
+      {
+        "text": "the",
+        "start": 5.05,
+        "end": 5.12
+      },
+      {
+        "text": "mean-reversion",
+        "start": 5.178,
+        "end": 5.84
+      },
+      {
+        "text": "analyst",
+        "start": 5.921,
+        "end": 6.362
+      },
+      {
+        "text": "in",
+        "start": 6.409,
+        "end": 6.502
+      },
+      {
+        "text": "mid-volatility",
+        "start": 6.583,
+        "end": 7.454
+      },
+      {
+        "text": "US",
+        "start": 7.523,
+        "end": 7.767
+      },
+      {
+        "text": "hours.",
+        "start": 7.825,
+        "end": 8.29
+      },
+      {
+        "text": "So",
+        "start": 8.8,
+        "end": 8.998
+      },
+      {
+        "text": "there,",
+        "start": 9.067,
+        "end": 9.497
+      },
+      {
+        "text": "Sibyl",
+        "start": 9.671,
+        "end": 9.996
+      },
+      {
+        "text": "stops",
+        "start": 10.043,
+        "end": 10.321
+      },
+      {
+        "text": "listening",
+        "start": 10.379,
+        "end": 10.704
+      },
+      {
+        "text": "to",
+        "start": 10.762,
+        "end": 10.832
+      },
+      {
+        "text": "it.",
+        "start": 10.948,
+        "end": 11.378
+      }
+    ]
+  },
+  "recall": {
+    "text": "Everything it learns lives in Walrus Memory. Before every bet, it recalls similar moments, and asks: when I disagreed with the market like this... was I right?",
+    "duration": 10.542,
+    "words": [
+      {
+        "text": "Everything",
+        "start": 0,
+        "end": 0.476
+      },
+      {
+        "text": "it",
+        "start": 0.522,
+        "end": 0.592
+      },
+      {
+        "text": "learns",
+        "start": 0.639,
+        "end": 0.964
+      },
+      {
+        "text": "lives",
+        "start": 1.057,
+        "end": 1.324
+      },
+      {
+        "text": "in",
+        "start": 1.37,
+        "end": 1.44
+      },
+      {
+        "text": "Walrus",
+        "start": 1.521,
+        "end": 1.939
+      },
+      {
+        "text": "Memory.",
+        "start": 2.02,
+        "end": 2.496
+      },
+      {
+        "text": "Before",
+        "start": 2.775,
+        "end": 3.123
+      },
+      {
+        "text": "every",
+        "start": 3.193,
+        "end": 3.483
+      },
+      {
+        "text": "bet,",
+        "start": 3.553,
+        "end": 3.913
+      },
+      {
+        "text": "it",
+        "start": 3.982,
+        "end": 4.098
+      },
+      {
+        "text": "recalls",
+        "start": 4.156,
+        "end": 4.563
+      },
+      {
+        "text": "similar",
+        "start": 4.609,
+        "end": 4.981
+      },
+      {
+        "text": "moments,",
+        "start": 5.05,
+        "end": 5.573
+      },
+      {
+        "text": "and",
+        "start": 5.631,
+        "end": 5.805
+      },
+      {
+        "text": "asks:",
+        "start": 5.875,
+        "end": 6.397
+      },
+      {
+        "text": "when",
+        "start": 7.001,
+        "end": 7.152
+      },
+      {
+        "text": "I",
+        "start": 7.198,
+        "end": 7.233
+      },
+      {
+        "text": "disagreed",
+        "start": 7.349,
+        "end": 7.837
+      },
+      {
+        "text": "with",
+        "start": 7.872,
+        "end": 7.976
+      },
+      {
+        "text": "the",
+        "start": 8.011,
+        "end": 8.081
+      },
+      {
+        "text": "market",
+        "start": 8.115,
+        "end": 8.406
+      },
+      {
+        "text": "like",
+        "start": 8.452,
+        "end": 8.615
+      },
+      {
+        "text": "this...",
+        "start": 8.649,
+        "end": 9.149
+      },
+      {
+        "text": "was",
+        "start": 9.474,
+        "end": 9.659
+      },
+      {
+        "text": "I",
+        "start": 9.741,
+        "end": 9.776
+      },
+      {
+        "text": "right?",
+        "start": 9.892,
+        "end": 10.542
+      }
+    ]
+  },
+  "amnesia": {
+    "text": "Wipe its brain, and it rebuilds itself from Walrus, making the exact same decisions.",
+    "duration": 4.923,
+    "words": [
+      {
+        "text": "Wipe",
+        "start": 0,
+        "end": 0.313
+      },
+      {
+        "text": "its",
+        "start": 0.348,
+        "end": 0.453
+      },
+      {
+        "text": "brain,",
+        "start": 0.511,
+        "end": 0.987
+      },
+      {
+        "text": "and",
+        "start": 1.045,
+        "end": 1.196
+      },
+      {
+        "text": "it",
+        "start": 1.254,
+        "end": 1.3
+      },
+      {
+        "text": "rebuilds",
+        "start": 1.347,
+        "end": 1.823
+      },
+      {
+        "text": "itself",
+        "start": 1.869,
+        "end": 2.194
+      },
+      {
+        "text": "from",
+        "start": 2.241,
+        "end": 2.368
+      },
+      {
+        "text": "Walrus,",
+        "start": 2.438,
+        "end": 2.961
+      },
+      {
+        "text": "making",
+        "start": 3.03,
+        "end": 3.297
+      },
+      {
+        "text": "the",
+        "start": 3.332,
+        "end": 3.402
+      },
+      {
+        "text": "exact",
+        "start": 3.448,
+        "end": 3.831
+      },
+      {
+        "text": "same",
+        "start": 3.866,
+        "end": 4.04
+      },
+      {
+        "text": "decisions.",
+        "start": 4.075,
+        "end": 4.923
+      }
+    ]
+  },
+  "results": {
+    "text": "Across seven hundred and twenty-seven scored calls, memory cuts its error by six percent. Over the last day, by sixteen. Every number here is live.",
+    "duration": 9.427,
+    "words": [
+      {
+        "text": "Across",
+        "start": 0,
+        "end": 0.464
+      },
+      {
+        "text": "seven",
+        "start": 0.522,
+        "end": 0.848
+      },
+      {
+        "text": "hundred",
+        "start": 0.929,
+        "end": 1.231
+      },
+      {
+        "text": "and",
+        "start": 1.265,
+        "end": 1.335
+      },
+      {
+        "text": "twenty-seven",
+        "start": 1.382,
+        "end": 1.916
+      },
+      {
+        "text": "scored",
+        "start": 1.962,
+        "end": 2.252
+      },
+      {
+        "text": "calls,",
+        "start": 2.287,
+        "end": 2.798
+      },
+      {
+        "text": "memory",
+        "start": 3.239,
+        "end": 3.541
+      },
+      {
+        "text": "cuts",
+        "start": 3.599,
+        "end": 3.82
+      },
+      {
+        "text": "its",
+        "start": 3.866,
+        "end": 3.971
+      },
+      {
+        "text": "error",
+        "start": 4.017,
+        "end": 4.214
+      },
+      {
+        "text": "by",
+        "start": 4.272,
+        "end": 4.389
+      },
+      {
+        "text": "six",
+        "start": 4.47,
+        "end": 4.667
+      },
+      {
+        "text": "percent.",
+        "start": 4.725,
+        "end": 5.248
+      },
+      {
+        "text": "Over",
+        "start": 5.689,
+        "end": 5.875
+      },
+      {
+        "text": "the",
+        "start": 5.921,
+        "end": 5.991
+      },
+      {
+        "text": "last",
+        "start": 6.037,
+        "end": 6.293
+      },
+      {
+        "text": "day,",
+        "start": 6.351,
+        "end": 6.583
+      },
+      {
+        "text": "by",
+        "start": 6.606,
+        "end": 6.711
+      },
+      {
+        "text": "sixteen.",
+        "start": 6.769,
+        "end": 7.407
+      },
+      {
+        "text": "Every",
+        "start": 7.79,
+        "end": 8.081
+      },
+      {
+        "text": "number",
+        "start": 8.139,
+        "end": 8.359
+      },
+      {
+        "text": "here",
+        "start": 8.406,
+        "end": 8.545
+      },
+      {
+        "text": "is",
+        "start": 8.58,
+        "end": 8.649
+      },
+      {
+        "text": "live.",
+        "start": 8.719,
+        "end": 9.427
+      }
+    ]
+  },
+  "outro": {
+    "text": "Sibyl. The forecaster that remembers who was right. Built on Walrus, Sui, and Tatum.",
+    "duration": 5.759,
+    "words": [
+      {
+        "text": "Sibyl.",
+        "start": 0,
+        "end": 0.453
+      },
+      {
+        "text": "The",
+        "start": 0.836,
+        "end": 0.94
+      },
+      {
+        "text": "forecaster",
+        "start": 0.998,
+        "end": 1.579
+      },
+      {
+        "text": "that",
+        "start": 1.637,
+        "end": 1.765
+      },
+      {
+        "text": "remembers",
+        "start": 1.823,
+        "end": 2.264
+      },
+      {
+        "text": "who",
+        "start": 2.299,
+        "end": 2.426
+      },
+      {
+        "text": "was",
+        "start": 2.485,
+        "end": 2.589
+      },
+      {
+        "text": "right.",
+        "start": 2.659,
+        "end": 3.007
+      },
+      {
+        "text": "Built",
+        "start": 3.39,
+        "end": 3.634
+      },
+      {
+        "text": "on",
+        "start": 3.692,
+        "end": 3.773
+      },
+      {
+        "text": "Walrus,",
+        "start": 3.843,
+        "end": 4.389
+      },
+      {
+        "text": "Sui,",
+        "start": 4.505,
+        "end": 4.923
+      },
+      {
+        "text": "and",
+        "start": 4.946,
+        "end": 5.039
+      },
+      {
+        "text": "Tatum.",
+        "start": 5.074,
+        "end": 5.759
+      }
+    ]
+  },
+  "round": {
+    "text": "Here's one real round, sped up. Four minutes before the close, Sibyl hears every voice and locks its call. Seconds later, it's committed on Sui. Then it watches Bitcoin against the strike... until the oracle settles it, and the result is scored.",
+    "duration": 15.186,
+    "words": [
+      {
+        "text": "Here's",
+        "start": 0,
+        "end": 0.313
+      },
+      {
+        "text": "one",
+        "start": 0.406,
+        "end": 0.65
+      },
+      {
+        "text": "real",
+        "start": 0.72,
+        "end": 0.952
+      },
+      {
+        "text": "round,",
+        "start": 1.033,
+        "end": 1.358
+      },
+      {
+        "text": "sped",
+        "start": 1.416,
+        "end": 1.73
+      },
+      {
+        "text": "up.",
+        "start": 1.8,
+        "end": 2.113
+      },
+      {
+        "text": "Four",
+        "start": 2.438,
+        "end": 2.67
+      },
+      {
+        "text": "minutes",
+        "start": 2.717,
+        "end": 2.972
+      },
+      {
+        "text": "before",
+        "start": 3.019,
+        "end": 3.274
+      },
+      {
+        "text": "the",
+        "start": 3.309,
+        "end": 3.379
+      },
+      {
+        "text": "close,",
+        "start": 3.425,
+        "end": 3.878
+      },
+      {
+        "text": "Sibyl",
+        "start": 3.913,
+        "end": 4.203
+      },
+      {
+        "text": "hears",
+        "start": 4.272,
+        "end": 4.493
+      },
+      {
+        "text": "every",
+        "start": 4.609,
+        "end": 4.876
+      },
+      {
+        "text": "voice",
+        "start": 4.934,
+        "end": 5.19
+      },
+      {
+        "text": "and",
+        "start": 5.224,
+        "end": 5.294
+      },
+      {
+        "text": "locks",
+        "start": 5.341,
+        "end": 5.573
+      },
+      {
+        "text": "its",
+        "start": 5.608,
+        "end": 5.724
+      },
+      {
+        "text": "call.",
+        "start": 5.77,
+        "end": 6.235
+      },
+      {
+        "text": "Seconds",
+        "start": 6.676,
+        "end": 7.07
+      },
+      {
+        "text": "later,",
+        "start": 7.14,
+        "end": 7.488
+      },
+      {
+        "text": "it's",
+        "start": 7.523,
+        "end": 7.697
+      },
+      {
+        "text": "committed",
+        "start": 7.744,
+        "end": 8.104
+      },
+      {
+        "text": "on",
+        "start": 8.15,
+        "end": 8.243
+      },
+      {
+        "text": "Sui.",
+        "start": 8.324,
+        "end": 8.87
+      },
+      {
+        "text": "Then",
+        "start": 9.311,
+        "end": 9.485
+      },
+      {
+        "text": "it",
+        "start": 9.532,
+        "end": 9.59
+      },
+      {
+        "text": "watches",
+        "start": 9.636,
+        "end": 9.985
+      },
+      {
+        "text": "Bitcoin",
+        "start": 10.054,
+        "end": 10.495
+      },
+      {
+        "text": "against",
+        "start": 10.542,
+        "end": 10.809
+      },
+      {
+        "text": "the",
+        "start": 10.855,
+        "end": 10.925
+      },
+      {
+        "text": "strike...",
+        "start": 10.96,
+        "end": 11.517
+      },
+      {
+        "text": "until",
+        "start": 11.9,
+        "end": 12.144
+      },
+      {
+        "text": "the",
+        "start": 12.19,
+        "end": 12.26
+      },
+      {
+        "text": "oracle",
+        "start": 12.318,
+        "end": 12.655
+      },
+      {
+        "text": "settles",
+        "start": 12.69,
+        "end": 13.026
+      },
+      {
+        "text": "it,",
+        "start": 13.073,
+        "end": 13.27
+      },
+      {
+        "text": "and",
+        "start": 13.328,
+        "end": 13.607
+      },
+      {
+        "text": "the",
+        "start": 13.653,
+        "end": 13.723
+      },
+      {
+        "text": "result",
+        "start": 13.793,
+        "end": 14.176
+      },
+      {
+        "text": "is",
+        "start": 14.245,
+        "end": 14.35
+      },
+      {
+        "text": "scored.",
+        "start": 14.408,
+        "end": 15.186
+      }
+    ]
+  },
+  "tabTrack": {
+    "text": "Track record compares Sibyl with the market, and with the same voices without memory, call by call.",
+    "duration": 6.13,
+    "words": [
+      {
+        "text": "Track",
+        "start": 0,
+        "end": 0.348
+      },
+      {
+        "text": "record",
+        "start": 0.418,
+        "end": 0.697
+      },
+      {
+        "text": "compares",
+        "start": 0.743,
+        "end": 1.149
+      },
+      {
+        "text": "Sibyl",
+        "start": 1.219,
+        "end": 1.509
+      },
+      {
+        "text": "with",
+        "start": 1.556,
+        "end": 1.683
+      },
+      {
+        "text": "the",
+        "start": 1.718,
+        "end": 1.788
+      },
+      {
+        "text": "market,",
+        "start": 1.834,
+        "end": 2.299
+      },
+      {
+        "text": "and",
+        "start": 2.682,
+        "end": 2.833
+      },
+      {
+        "text": "with",
+        "start": 2.879,
+        "end": 3.019
+      },
+      {
+        "text": "the",
+        "start": 3.053,
+        "end": 3.123
+      },
+      {
+        "text": "same",
+        "start": 3.204,
+        "end": 3.471
+      },
+      {
+        "text": "voices",
+        "start": 3.518,
+        "end": 3.924
+      },
+      {
+        "text": "without",
+        "start": 3.971,
+        "end": 4.307
+      },
+      {
+        "text": "memory,",
+        "start": 4.377,
+        "end": 4.876
+      },
+      {
+        "text": "call",
+        "start": 5.027,
+        "end": 5.271
+      },
+      {
+        "text": "by",
+        "start": 5.329,
+        "end": 5.433
+      },
+      {
+        "text": "call.",
+        "start": 5.503,
+        "end": 6.13
+      }
+    ]
+  },
+  "tabLessons": {
+    "text": "Lessons lists everything it has learned, with the evidence, and exactly what each lesson changed.",
+    "duration": 5.526,
+    "words": [
+      {
+        "text": "Lessons",
+        "start": 0,
+        "end": 0.43
+      },
+      {
+        "text": "lists",
+        "start": 0.488,
+        "end": 0.72
+      },
+      {
+        "text": "everything",
+        "start": 0.836,
+        "end": 1.277
+      },
+      {
+        "text": "it",
+        "start": 1.324,
+        "end": 1.382
+      },
+      {
+        "text": "has",
+        "start": 1.428,
+        "end": 1.544
+      },
+      {
+        "text": "learned,",
+        "start": 1.614,
+        "end": 1.997
+      },
+      {
+        "text": "with",
+        "start": 2.078,
+        "end": 2.252
+      },
+      {
+        "text": "the",
+        "start": 2.287,
+        "end": 2.357
+      },
+      {
+        "text": "evidence,",
+        "start": 2.426,
+        "end": 2.949
+      },
+      {
+        "text": "and",
+        "start": 3.39,
+        "end": 3.541
+      },
+      {
+        "text": "exactly",
+        "start": 3.599,
+        "end": 4.122
+      },
+      {
+        "text": "what",
+        "start": 4.156,
+        "end": 4.284
+      },
+      {
+        "text": "each",
+        "start": 4.319,
+        "end": 4.458
+      },
+      {
+        "text": "lesson",
+        "start": 4.516,
+        "end": 4.783
+      },
+      {
+        "text": "changed.",
+        "start": 4.83,
+        "end": 5.526
+      }
+    ]
+  },
+  "tabPayments": {
+    "text": "Payments shows every analyst signal it bought, what memory thought it was worth, and the receipt on Sui.",
+    "duration": 6.037,
+    "words": [
+      {
+        "text": "Payments",
+        "start": 0,
+        "end": 0.464
+      },
+      {
+        "text": "shows",
+        "start": 0.499,
+        "end": 0.824
+      },
+      {
+        "text": "every",
+        "start": 0.94,
+        "end": 1.265
+      },
+      {
+        "text": "analyst",
+        "start": 1.335,
+        "end": 1.73
+      },
+      {
+        "text": "signal",
+        "start": 1.776,
+        "end": 2.101
+      },
+      {
+        "text": "it",
+        "start": 2.159,
+        "end": 2.218
+      },
+      {
+        "text": "bought,",
+        "start": 2.276,
+        "end": 2.682
+      },
+      {
+        "text": "what",
+        "start": 3.007,
+        "end": 3.193
+      },
+      {
+        "text": "memory",
+        "start": 3.262,
+        "end": 3.541
+      },
+      {
+        "text": "thought",
+        "start": 3.587,
+        "end": 3.785
+      },
+      {
+        "text": "it",
+        "start": 3.808,
+        "end": 3.866
+      },
+      {
+        "text": "was",
+        "start": 3.889,
+        "end": 3.994
+      },
+      {
+        "text": "worth,",
+        "start": 4.075,
+        "end": 4.458
+      },
+      {
+        "text": "and",
+        "start": 4.493,
+        "end": 4.644
+      },
+      {
+        "text": "the",
+        "start": 4.679,
+        "end": 4.748
+      },
+      {
+        "text": "receipt",
+        "start": 4.795,
+        "end": 5.166
+      },
+      {
+        "text": "on",
+        "start": 5.213,
+        "end": 5.283
+      },
+      {
+        "text": "Sui.",
+        "start": 5.341,
+        "end": 6.037
+      }
+    ]
+  },
+  "tabProofs": {
+    "text": "Proofs opens a receipt for any call: every forecast, its Merkle proof, the Sui transaction, and the Walrus memories.",
+    "duration": 7.941,
+    "words": [
+      {
+        "text": "Proofs",
+        "start": 0,
+        "end": 0.383
+      },
+      {
+        "text": "opens",
+        "start": 0.453,
+        "end": 0.778
+      },
+      {
+        "text": "a",
+        "start": 0.824,
+        "end": 0.859
+      },
+      {
+        "text": "receipt",
+        "start": 0.94,
+        "end": 1.265
+      },
+      {
+        "text": "for",
+        "start": 1.312,
+        "end": 1.416
+      },
+      {
+        "text": "any",
+        "start": 1.474,
+        "end": 1.649
+      },
+      {
+        "text": "call:",
+        "start": 1.707,
+        "end": 2.113
+      },
+      {
+        "text": "every",
+        "start": 2.357,
+        "end": 2.612
+      },
+      {
+        "text": "forecast,",
+        "start": 2.67,
+        "end": 3.402
+      },
+      {
+        "text": "its",
+        "start": 3.553,
+        "end": 3.727
+      },
+      {
+        "text": "Merkle",
+        "start": 3.82,
+        "end": 4.145
+      },
+      {
+        "text": "proof,",
+        "start": 4.18,
+        "end": 4.598
+      },
+      {
+        "text": "the",
+        "start": 4.923,
+        "end": 5.027
+      },
+      {
+        "text": "Sui",
+        "start": 5.085,
+        "end": 5.306
+      },
+      {
+        "text": "transaction,",
+        "start": 5.364,
+        "end": 6.293
+      },
+      {
+        "text": "and",
+        "start": 6.467,
+        "end": 6.618
+      },
+      {
+        "text": "the",
+        "start": 6.653,
+        "end": 6.722
+      },
+      {
+        "text": "Walrus",
+        "start": 6.769,
+        "end": 7.129
+      },
+      {
+        "text": "memories.",
+        "start": 7.187,
+        "end": 7.941
+      }
+    ]
+  },
+  "tabHood": {
+    "text": "And under the hood, Tatum's checkpoint stream shows settlements and commitments arriving live.",
+    "duration": 4.83,
+    "words": [
+      {
+        "text": "And",
+        "start": 0,
+        "end": 0.151
+      },
+      {
+        "text": "under",
+        "start": 0.209,
+        "end": 0.372
+      },
+      {
+        "text": "the",
+        "start": 0.418,
+        "end": 0.488
+      },
+      {
+        "text": "hood,",
+        "start": 0.534,
+        "end": 0.801
+      },
+      {
+        "text": "Tatum's",
+        "start": 0.836,
+        "end": 1.219
+      },
+      {
+        "text": "checkpoint",
+        "start": 1.254,
+        "end": 1.741
+      },
+      {
+        "text": "stream",
+        "start": 1.776,
+        "end": 2.078
+      },
+      {
+        "text": "shows",
+        "start": 2.148,
+        "end": 2.38
+      },
+      {
+        "text": "settlements",
+        "start": 2.426,
+        "end": 2.902
+      },
+      {
+        "text": "and",
+        "start": 2.937,
+        "end": 3.019
+      },
+      {
+        "text": "commitments",
+        "start": 3.065,
+        "end": 3.576
+      },
+      {
+        "text": "arriving",
+        "start": 3.692,
+        "end": 4.145
+      },
+      {
+        "text": "live.",
+        "start": 4.203,
+        "end": 4.83
+      }
+    ]
+  }
+}
